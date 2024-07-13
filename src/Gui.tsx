@@ -1,4 +1,4 @@
-import { DOMElement, useCallback, useState } from 'react';
+import {  useCallback, useState } from 'react';
 import { observer } from 'mobx-react';
 
 import OpenAI from "openai";
