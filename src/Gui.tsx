@@ -33,8 +33,11 @@ async function getLocation () {
             longitude: position.coords.longitude
           });
           //get location input
-          const location = document.querySelector(".location-input") as HTMLInputElement;
-          location.value = position.coords.latitude + ", " + position.coords.longitude;
+          // const location = document.querySelector(".location-input") as HTMLInputElement;
+          // location.value = position.coords.latitude + ", " + position.coords.longitude;
+   
+          displayLocation(position.coords.latitude , position.coords.longitude)
+         
         },
         error => {
           console.error("Error getting location:", error);
@@ -45,7 +48,26 @@ async function getLocation () {
     }
   };
 
+  function displayLocation(latitude:number,longitude:number){
+    var request = new XMLHttpRequest();
+    var method = 'GET';
+    var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&sensor=true&key='+import.meta.env.GOOGLE_KEY;
+    var async = true;
 
+    request.open(method, url, async);
+    request.onreadystatechange = function(){
+      if(request.readyState == 4 && request.status == 200){
+        var data = JSON.parse(request.responseText);
+        var address = data.results[0];
+        console.log(address.address_components);
+        const locationInput = document.querySelector(".location-input") as HTMLInputElement;
+        locationInput.value = "in " + address.address_components[3].short_name;
+        
+      }
+    };
+    request.send();
+
+  };
 // create array with dummy 5 data
 const verbs = [
   "Sense",
@@ -143,7 +165,7 @@ const handleNounClick = (noun:string) => {
       
     
     getLocation();
-    console.log(location.latitude, location.longitude);
+
     }
     return (
       //Get current location of the device
