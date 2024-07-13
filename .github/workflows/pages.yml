@@ -37,7 +37,8 @@ jobs:
 
       - name: Build static files
         run: npm run build
-        env: VITE_API_KEY: ${{ secrets.API_KEY }}
+        env: 
+            VITE_API_KEY: ${{ secrets.API_KEY }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
