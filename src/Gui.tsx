@@ -1,6 +1,5 @@
 import {  useCallback, useState } from 'react';
 import { observer } from 'mobx-react';
-
 import OpenAI from "openai";
 import './Gui.css';
 var lastVerb = "";
@@ -51,7 +50,7 @@ async function getLocation () {
   function displayLocation(latitude:number,longitude:number){
     var request = new XMLHttpRequest();
     var method = 'GET';
-    var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&sensor=true&key='+import.meta.env.GOOGLE_KEY;
+    var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&sensor=true&key='+import.meta.env.VITE_GOOGLE_KEY;
     var async = true;
 
     request.open(method, url, async);
