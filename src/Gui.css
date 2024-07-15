@@ -27,7 +27,8 @@
   height:100% ;
   width: 50%;
   text-align: center;
-
+  overflow-y: scroll;
+  overflow-x: hidden;
 
 }
 
@@ -38,6 +39,8 @@
   left: 50%;
   width: 50%;
   text-align: center;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .footer {

@@ -18,8 +18,7 @@ const Gui = observer(() => {
     });
     // show description-panel and fill content with response
     const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
-    descriptionPanel.classList.remove("hide");
-    descriptionPanel.innerHTML = "<h2>"+action +"</h2>"+": " + completion.choices[0].message.content;
+    descriptionPanel.innerHTML = "<h2>"+action +"</h2>"+" " + completion.choices[0].message.content;
     // console.log(completion.choices[0].message.content);
   }
   const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
@@ -137,8 +136,9 @@ const handleNounClick = (noun:string) => {
     const location = document.querySelector(".location-input") as HTMLInputElement;
     const locationValue = location.value;
  // get active verb and noun
-    console.log("expecting " + lastVerb + " " + lastNoun);
-
+ const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
+ descriptionPanel.classList.remove("hide");
+  descriptionPanel.innerHTML = "Loading AI answer, it might take couple of seconds, please stand by.. ";
     main(lastVerb + " "+lastNoun + " in  " + locationValue);
   }, [])
 
