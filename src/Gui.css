@@ -21,6 +21,8 @@
   background-color: rgb(64, 58, 180);
   font-size: 18px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .verbs-panel {
