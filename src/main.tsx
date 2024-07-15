@@ -26,10 +26,10 @@ function isWebGLSupported() {
   return false;
 }
 
-// if (!isWebGLSupported()) {
-//   alert('Your browser does not support WebGL2 or floating-point textures.');
-//   throw Error('Unsupported WebGL version');
-// }
+if (!isWebGLSupported()) {
+  alert('Your browser does not support WebGL2 or floating-point textures.');
+  // throw Error('Unsupported WebGL version');
+}
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
