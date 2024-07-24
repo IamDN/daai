@@ -6,7 +6,7 @@ function isWebGLSupported() {
   if (window.WebGLRenderingContext) {
     const canvas = document.createElement('canvas');
     try {
-      const gl = canvas.getContext('webgl');
+      const gl = canvas.getContext('webgl2');
       if (!gl) return false;
 
       // Load floating-point texture extensions
@@ -28,7 +28,7 @@ function isWebGLSupported() {
 
 if (!isWebGLSupported()) {
   alert('Your browser does not support WebGL2 or floating-point textures.');
-  // throw Error('Unsupported WebGL version');
+  throw Error('Unsupported WebGL version');
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

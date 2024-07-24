@@ -1,5 +1,5 @@
 {
-  "name": "testai",
+  "name": "urscape-poc",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,10 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "lru-cache": "^11.0.0",
     "maplibre-gl": "^4.3.2",
     "mobx": "^6.12.5",
     "mobx-react": "^9.1.1",
-    "openai": "^4.52.7",
     "papaparse": "^5.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -34,17 +34,5 @@
     "eslint-plugin-react-refresh": "^0.4.6",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
-  },
-  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/UrbanRuralSystems/jsPoC.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/UrbanRuralSystems/jsPoC/issues"
-  },
-  "homepage": "https://github.com/UrbanRuralSystems/jsPoC#readme"
+  }
 }
