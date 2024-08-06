@@ -49,16 +49,17 @@ async function getLocation () {
   window.addEventListener("touchmove", (event) => {
     console.log(event);
     const footer = document.querySelector(".footer") as HTMLDivElement;
-    footer.style.backgroundColor = "red";
+    footer.style.backgroundColor = "green";
   });
  
-    window.addEventListener('scroll', (event) => {
-      console.log(event);
 
-      // get footer and change color
-      const footer = document.querySelector(".footer") as HTMLDivElement;
-      footer.style.backgroundColor = "red";
-    });
+    // window.addEventListener('scroll', (event) => {
+    //   console.log(event);
+
+    //   // get footer and change color
+    //   const footer = document.querySelector(".footer") as HTMLDivElement;
+    //   footer.style.backgroundColor = "red";
+    // });
 
 
 
