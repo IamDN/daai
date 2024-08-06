@@ -46,6 +46,24 @@ async function getLocation () {
     }
   };
 
+  window.addEventListener("touchmove", (event) => {
+    console.log(event);
+    const footer = document.querySelector(".footer") as HTMLDivElement;
+    footer.style.backgroundColor = "red";
+  });
+ 
+    window.addEventListener('scroll', (event) => {
+      console.log(event);
+
+      // get footer and change color
+      const footer = document.querySelector(".footer") as HTMLDivElement;
+      footer.style.backgroundColor = "red";
+    });
+
+
+
+
+
   function displayLocation(latitude:number,longitude:number){
     var request = new XMLHttpRequest();
     var method = 'GET';
@@ -181,14 +199,14 @@ const handleNounClick = (noun:string) => {
   const drawGUI = () => {
     return (
       <div>
-      <div className="action-panel">
+      <div  className="action-panel">
    
         <div className="verbs-panel">
     
-          <div className="container">
+          <div className="container" >
             { verbs.map((verb) => addVerbButton(verb) )}
           </div>
-          <div className="nouns-panel">
+          <div className="nouns-panel" >
 
             <div className="container">
               { nouns.map((noun) => addNounButton(noun)) }
