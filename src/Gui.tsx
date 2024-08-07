@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import OpenAI from "openai";
 import './Gui.css';
 
-const dummyText = "<br> <br> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <br><br><img src='public/gui/img1.jpg' class='image' />"; 
+const dummyText = "<br> <br> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <br><br><img src='gui/img1.jpg' class='image' />"; 
 
 const initVerbs: string[] = [
   "Sense", "Describe", "Recognise", "Analyse", "Identify", "Evaluate", "Imagine",
@@ -232,7 +232,7 @@ const Gui = observer(() => {
 
   const addAICountrol = () => {
     const lockName: string = isLocked ? "Unlock berserk mode" : "Lock to basic mode";
-    const lockSrc = isLocked ? "public/gui/lock.png" : "public/gui/unlock.png";
+    const lockSrc = isLocked ? "gui/lock.png" : "gui/unlock.png";
     const onLockClicked = () => {
       setIsLocked(!isLocked);
     }
@@ -267,7 +267,12 @@ const Gui = observer(() => {
               {verbs.map((verb) => addVerbButton(verb))}
             </div>
           </div>
-          <div className="nouns-panel" onWheel={(e) => onScroll(e.deltaY, false)}>
+          <div className="nouns-panel" 
+            onWheel={(e) => onScroll(e.deltaY, false)}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}>
+          
             <div className="container right">
               {nouns.map((noun) => addNounButton(noun))}
             </div>
