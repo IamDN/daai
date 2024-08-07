@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { observer } from 'mobx-react';
 import OpenAI from "openai";
 import './Gui.css';
@@ -39,17 +39,17 @@ const Gui = observer(() => {
   const [nouns, setNouns] = useState<string[]>(initNouns);
   const [isLocked, setIsLocked] = useState(true);
   const [lastRan, setLastRan] = useState(0);
-  const [boxColors, setBoxColors] = useState([getRandomColor()]);
-  const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
+  const [boxColors, ] = useState([getRandomColor()]);
+  const [, setLocation] = useState({ latitude: 0, longitude: 0 });
   const [adress, setAdress] = useState('');
   const [touchStart, setTouchStart] = useState<number>(0);
-  const [touchEnd, setTouchEnd] = useState(null);
-  const [isScrolling, setIsScrolling] = useState(false);
-  const containerRef = useRef(null);
-  const [activeVerb, setActiveVerb] = useState('x');
-  const [activeNoun, setActiveNoun] = useState('y');
-
-
+  const [, setTouchEnd] = useState(0);
+  //const [isScrolling, setIsScrolling] = useState(false);
+  // const containerRef = useRef(null);
+  // const [activeVerb, setActiveVerb] = useState('x');
+  // const [activeNoun, setActiveNoun] = useState('y');
+  
+ 
   async function getAIAnswer(action: string) {
 
     await getLocation();
@@ -135,7 +135,7 @@ const Gui = observer(() => {
   const addVerbButton = (verb: string) => {
     let i = verbs.indexOf(verb);
     let isMiddle = verbs.indexOf(verb) === Math.floor(verbs.length / 2);
-    let endOfGroup =Math.abs(i-verbs.indexOf(initVerbs[0]))%4 <3;
+    //let endOfGroup =Math.abs(i-verbs.indexOf(initVerbs[0]))%4 <3;
     //console.log("EOG " + (i-verbs.indexOf(initVerbs[0]))%4);
     return (
       <button
@@ -203,7 +203,7 @@ const Gui = observer(() => {
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.touches[0].clientY as number);
-    setIsScrolling(false);
+   // setIsScrolling(false);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -218,7 +218,7 @@ const Gui = observer(() => {
 
   const handleTouchEnd = () => {
     setTouchStart(0);
-    setTouchEnd(null);
+    setTouchEnd(0);
   };
 
 
@@ -251,7 +251,7 @@ const Gui = observer(() => {
         <div className="header"> {"Design Actions"} </div>
         <div className="action-panel">
           <div className="verbs-panel" 
-              onWheel={(e) => onScroll(e, true)} 
+              onWheel={(e) => onScroll(e.deltaY, true)} 
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}>
@@ -259,7 +259,7 @@ const Gui = observer(() => {
               {verbs.map((verb) => addVerbButton(verb))}
             </div>
           </div>
-          <div className="nouns-panel" onWheel={(e) => onScroll(e, false)}>
+          <div className="nouns-panel" onWheel={(e) => onScroll(e.deltaY, false)}>
             <div className="container right">
               {nouns.map((noun) => addNounButton(noun))}
             </div>
