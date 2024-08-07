@@ -41,8 +41,8 @@ const Gui = observer(() => {
   const [isLocked, setIsLocked] = useState(true);
   const [lastRan, setLastRan] = useState(0);
   const [boxColors, ] = useState([getRandomColor()]);
-  const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
-  const [adress, setAdress] = useState('');
+  const [, setLocation] = useState({ latitude: 0, longitude: 0 });
+  const [, setAdress] = useState('');
   const [touchStart, setTouchStart] = useState<number>(0);
   const [, setTouchEnd] = useState(0);
   //const [isScrolling, setIsScrolling] = useState(false);
@@ -143,7 +143,7 @@ const Gui = observer(() => {
   const addVerbButton = (verb: string) => {
     let i = verbs.indexOf(verb);
     let isMiddle = verbs.indexOf(verb) === Math.floor(verbs.length / 2);
-    //let endOfGroup =Math.abs(i-verbs.indexOf(initVerbs[0]))%4 <3;
+    let endOfGroup =Math.abs(i-verbs.indexOf(initVerbs[0]))%4 <3;
     //console.log("EOG " + (i-verbs.indexOf(initVerbs[0]))%4);
     return (
       <button
