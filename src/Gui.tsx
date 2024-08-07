@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import OpenAI from "openai";
 import './Gui.css';
 
-const dummyText = "<br> <br> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <br><br><img src='dist/gui/img1.jpg' class='image' />"; 
+const dummyText = "<br> <br> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <br><br><img src='public/gui/img1.jpg' class='image' />"; 
 
 const initVerbs: string[] = [
   "Sense", "Describe", "Recognise", "Analyse", "Identify", "Evaluate", "Imagine",
@@ -26,8 +26,9 @@ const colors = [
   '#F5CBA7', // Pastel Warm Yellow
   '#4C8C7B'  // Dark Cool Moss Green
 ];
-var lastVerb = initVerbs[0];
-var lastNoun = initNouns[0];
+var lastVerb = initVerbs[7];
+var lastNoun = initNouns[7];
+var lastAdress = '';
 
 const Gui = observer(() => {
 
@@ -40,7 +41,7 @@ const Gui = observer(() => {
   const [isLocked, setIsLocked] = useState(true);
   const [lastRan, setLastRan] = useState(0);
   const [boxColors, ] = useState([getRandomColor()]);
-  const [, setLocation] = useState({ latitude: 0, longitude: 0 });
+  const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
   const [adress, setAdress] = useState('');
   const [touchStart, setTouchStart] = useState<number>(0);
   const [, setTouchEnd] = useState(0);
@@ -53,21 +54,26 @@ const Gui = observer(() => {
   async function getAIAnswer(action: string) {
 
     await getLocation();
-    console.log(action);
+
+    // wait for one second
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    console.log("LAST ADRESS when asking for AI answer: " +lastAdress);
     const completion = await openai.chat.completions.create({
       messages: [{ role: "system", 
         content: `Act as urban planner and try to be very location specific 
         (ideally with specific district names). Give me 5 recommendations on how 
-        to ${action} in  ${adress}` }],
+        to ${action} in  ${lastAdress}` }],
       model: "gpt-3.5-turbo",
     });
 
     const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
-    descriptionPanel.innerHTML = `<h2>${action}</h2> ${completion.choices[0].message.content}`;
+    descriptionPanel.innerHTML = `<h2>${action + " in " + lastAdress} </h2> ${completion.choices[0].message.content}`;
   }
 
 
   async function getLocation() {
+
     if (navigator.geolocation) {
       await navigator.geolocation.getCurrentPosition(
         position => {
@@ -75,8 +81,7 @@ const Gui = observer(() => {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
           });
-
-          displayLocation(position.coords.latitude, position.coords.longitude);
+          displayLocation(position.coords.latitude, position.coords.longitude)
         },
         error => {
           console.error("Error getting location:", error);
@@ -85,9 +90,10 @@ const Gui = observer(() => {
     } else {
       alert("Geolocation is not supported by this browser.");
     }
+    
   }
 
-  function displayLocation(latitude: number, longitude: number) {
+  async function displayLocation(latitude: number, longitude: number) {
     var request = new XMLHttpRequest();
     var method = 'GET';
     var url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true&key=${import.meta.env.VITE_GOOGLE_KEY}`;
@@ -98,6 +104,8 @@ const Gui = observer(() => {
       if (request.readyState == 4 && request.status == 200) {
         var data = JSON.parse(request.responseText);
         var address = data.results[0];
+        console.log(address.address_components[3].short_name);
+        lastAdress = address.address_components[3].short_name; 
         setAdress(address);
       }
     };
@@ -210,8 +218,8 @@ const Gui = observer(() => {
     const touchCurrent = e.touches[0].clientY;
     if (touchStart !== null) {
       const distance = touchCurrent - touchStart ;
-      if (Math.abs(distance) > 20) { // Threshold to determine scrolling
-        onScroll( distance, true);
+      if (Math.abs(distance) > 10) { // Threshold to determine scrolling
+        onScroll( distance*3, e.touches[0].clientX < window.innerWidth / 2);
       }
     }
   };
@@ -224,7 +232,7 @@ const Gui = observer(() => {
 
   const addAICountrol = () => {
     const lockName: string = isLocked ? "Unlock berserk mode" : "Lock to basic mode";
-    const lockSrc = isLocked ? "dist/gui/lock.png" : "dist/gui/unlock.png";
+    const lockSrc = isLocked ? "public/gui/lock.png" : "public/gui/unlock.png";
     const onLockClicked = () => {
       setIsLocked(!isLocked);
     }
