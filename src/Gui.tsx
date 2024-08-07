@@ -143,7 +143,7 @@ const Gui = observer(() => {
   const addVerbButton = (verb: string) => {
     let i = verbs.indexOf(verb);
     let isMiddle = verbs.indexOf(verb) === Math.floor(verbs.length / 2);
-    let endOfGroup =Math.abs(i-verbs.indexOf(initVerbs[0]))%4 <3;
+    //let endOfGroup =Math.abs(i-verbs.indexOf(initVerbs[0]))%4 ===3;
     //console.log("EOG " + (i-verbs.indexOf(initVerbs[0]))%4);
     return (
       <button
