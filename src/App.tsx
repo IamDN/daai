@@ -4,6 +4,7 @@ import './App.css';
 
 
 function App() {
+  console.log("Hello FROM APP");
   return (
    <>
       <Gui />

@@ -1,10 +1,16 @@
+body {
+  overflow: hidden;
+}
+
 .action-panel{
+  overflow: hidden;
   position: absolute;
   text-align: center;
   left: 0px;
-  top: 0px;
+  top: 10%;
+  bottom: 10%;
   width: 100%;
-  height: 90%;
+  height: 80%;
   border: 0.5px solid rgb(255, 255, 255);
   background-color: black;
 }
@@ -12,69 +18,123 @@
 .description-panel{
   position: absolute;
   text-align: left;
-  padding: 2%;
+  padding: 0vh 5vh 5vh 5vh;
   left: 0px;
+  right: 0px;
   top: 0px;
-  width: 96%;
+
   height: 100%;
   color: azure;
   background-color: rgb(64, 58, 180);
-  font-size: 18px;
+  font-size: 3.3vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow-y: scroll;
   overflow-x: hidden;
 }
 
 .verbs-panel {
+  overflow: hidden;
   height:100% ;
   width: 50%;
   text-align: center;
-  overflow-y: scroll;
   overflow-x: hidden;
 
 }
 
 .nouns-panel {
+  overflow: hidden;
   position: absolute;
   height: 100%;
   top: 0%;
   left: 50%;
   width: 50%;
   text-align: center;
-  overflow-y: scroll;
-  overflow-x: hidden;
+
 }
 
 .footer {
+  position: absolute;
  height: 10%;
-  background-color: rgb(45, 48, 235);
-
+ bottom: 0%;
+  width: 100%;
+  background-color: black;
+  text-align: left;
 }
-.container {
+
+
+.header {
+  position: absolute;
+  top: 0%;
+  height: 10%;
+  width: 100%;
+  border: 0px;
+  padding: 1rem;
+   background-color: black;
+   text-align: left;
+    color: azure;
+    align-items: center;
+    font-size: 3.8vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ }
+.container.left  {
   top: 30px;
   padding-top: 5px;
-  text-align: center;
+  text-align: right;
+  float: right;
 }
 
-.layer-button {
+.container.right  {
+  top: 30px;
+  padding-top: 5px;
+  text-align: left;
+  float: left;
+}
+
+.layer-button{
+
     display: flex;
+    flex-direction: row;
     width: 180px;
     border-radius:50px;
-    background-color: black;
+    background-color: transparent;
     border: 0px solid;
     color: white;
-    padding: 5px;
-    padding-left: 15px;
-    margin: 7px;
+    padding: 0px;
+    padding-right:3px;
+    margin: 2px;
     cursor: pointer;
-    justify-content: left;
-    align-items: left;
-    font-size: 18px;
+    align-items: center;
+    font-size: 3.8vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
+  .l{
+    justify-content: right;
+  }
+  .r{
+    justify-content: left;
+  }
   .active {
-    background-color:rgb(153, 153, 153);
-    color: white;
+    color: rgb(61, 242, 203);
+    font-size: 4.5vh;
+    -webkit-transform:scale(1,3); /* Safari and Chrome */
+    -moz-transform:scale(1,2); /* Firefox */
+    -ms-transform:scale(1,2); /* IE 9 */
+    -o-transform:scale(1,2); /* Opera */
+    transform:scale(1,2); /* W3C */
+    transition: color 10s;
+    padding-bottom: 2vh;
+    padding-top: 1.5vh;
+  }
+
+  .nonactive {
+ 
+    /* color: rgb(255, 255, 255); */
+
+    -webkit-transform:scale(1,0.8); /* Safari and Chrome */
+    -moz-transform:scale(1,0.8); /* Firefox */
+    -ms-transform:scale(1,0.8); /* IE 9 */
+    -o-transform:scale(1,0.8); /* Opera */
+    transform:scale(1,0.8); /* W3C */
   }
 
   .hide {
@@ -84,6 +144,60 @@
   .layer-button:hover {
     color: grey;
   }
+
+  .ask-button {
+    position: absolute; 
+    width: 18vh;
+    height: 18vh;
+    border-radius:100px;
+    right: 20px;
+    bottom: 20px;
+    border: 0px solid;
+    color: white;
+    padding: 15px; 
+    /* padding-left: 15px;
+    margin: 7px; */ 
+    cursor: pointer;
+    align-items: center;
+    font-size: 3.3vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 10s;
+  }
+  .lock-button 
+  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: 0px solid;
+    margin: 0px;
+    vertical-align: middle;
+  }
+
+  .lock-icon {
+    width: 10vh;
+    height: 10vh;
+  }
+  .lock-spam {
+    color: rgb(255, 255, 255);
+    font-size: 2.3vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  @media (max-width: 600px) {
+  .image {
+    width: 100%;    
+  }
+}
+@media (min-width: 601px) and (max-width: 1024px) {
+  .image {
+    width: 70vw;    
+  }
+}
+@media (min-width: 1025px) {
+  .image {
+    width: 50vw;    
+  }
+}
 
 
 
