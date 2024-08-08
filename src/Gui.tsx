@@ -232,7 +232,7 @@ const Gui = observer(() => {
 
   const addAICountrol = () => {
     const lockName: string = isLocked ? "Unlock berserk mode" : "Lock to basic mode";
-    const lockSrc = isLocked ? "gui/lock.png" : "gui/unlock.png";
+    const lockSrc = isLocked ? "./gui/lock.png" : "./gui/unlock.png";
     const onLockClicked = () => {
       setIsLocked(!isLocked);
     }
