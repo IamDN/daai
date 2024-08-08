@@ -3,18 +3,19 @@ import { observer } from 'mobx-react';
 import OpenAI from "openai";
 import lockImage from './gui/lock.png';
 import unlockImage from './gui/unlock.png';
+import  dummyImage  from './gui/img1.jpg';
 import './Gui.css';
 
-const dummyText = "<br> <br> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <br><br><img src='gui/img1.jpg' class='image' />"; 
+const dummyText = "<br> <br> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."; 
 
 const initVerbs: string[] = [
-  "Sense", "Describe", "Recognise", "Analyse", "Identify", "Evaluate", "Imagine",
-  "Generate", "Evolve", "Craft", "Assemble", "Create", "Empower", "Inform", "Inspire"
+  "Evolve", "Craft", "Assemble", "Create", "Empower", "Inform", "Inspire","Sense", "Describe", "Recognise", "Analyse", "Identify", "Evaluate", "Imagine",
+  "Generate"
 ];
 
 const initNouns: string[] = [
-  "lifeworlds", "needs", "aspirations", "data", "limits", "potentials", "scenarios",
-  "ideas", "concepts", "materials", "projects", "formats", "participants", "stakeholders", "coalitions"
+  "Concepts", "Materials", "Projects", "Formats", "Participants", "Stakeholders", "Coalitions","Lifeworlds", "Needs", "Aspirations", "Data", "Limits", "Potentials", "Scenarios",
+  "ideas"
 ];
 const colors = [
   '#D4A5A5', // Pastel Cool Red
@@ -123,7 +124,8 @@ const Gui = observer(() => {
   
     const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
     descriptionPanel.classList.remove("hide");
-    descriptionPanel.innerHTML = "<br>"   +noun + dummyText+ dummyText;
+    descriptionPanel.innerHTML = "<br>"   +noun + dummyText+
+     "<br><br><img src="+ dummyImage+" class =image />";
     descriptionPanel.style.backgroundColor = "white";
     descriptionPanel.style.color = "black";
   };
@@ -155,7 +157,7 @@ const Gui = observer(() => {
         id = {verb + "-button"}
         onClick={() => handleClick(verb)}
         style={{ color: isMiddle ? boxColors[0] : 'white'}}>
-        {verb.charAt(0).toUpperCase() + verb.slice(1)}
+        {verb.charAt(0).toLowerCase() + verb.slice(1)}
       </button>
     );
   };
@@ -171,7 +173,7 @@ const Gui = observer(() => {
         id ={noun + "-button"}
         onClick={() => handleClick(noun)}
         style={{   color: isMiddle ? boxColors[0] : 'white'  }}>
-        {noun.charAt(0).toUpperCase() + noun.slice(1)}
+        {noun.charAt(0).toLowerCase() + noun.slice(1)}
       </button>
     );
   };
