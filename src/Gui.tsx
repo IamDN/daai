@@ -204,8 +204,8 @@ const Gui = observer(() => {
     if (!isLeft || isLocked) setNouns([...nouns]);
     if (isLeft|| isLocked)
     
-      lastVerb = verbs[8];
-      lastNoun = nouns[8];
+      lastVerb = verbs[7];
+      lastNoun = nouns[7];
     
   };
 
@@ -232,7 +232,7 @@ const Gui = observer(() => {
 
   const addAICountrol = () => {
     const lockName: string = isLocked ? "Unlock berserk mode" : "Lock to basic mode";
-    const lockSrc = isLocked ? "gui/lock.png" : "gui/unlock.png";
+    const lockSrc = isLocked ? "src/gui/lock.png" : "src/gui/unlock.png";
     const onLockClicked = () => {
       setIsLocked(!isLocked);
     }
