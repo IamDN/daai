@@ -6,6 +6,7 @@ import unlockImage from './gui/unlock.png';
 import  dummyImage  from './gui/img1.jpg';
 import './Gui.css';
 
+
 const dummyText = "<br> <br> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."; 
 
 const initVerbs: string[] = [
@@ -32,6 +33,9 @@ const colors = [
 var lastVerb = initVerbs[7];
 var lastNoun = initNouns[7];
 var lastAdress = '';
+var lastContent = "";
+
+
 
 const Gui = observer(() => {
 
@@ -48,19 +52,66 @@ const Gui = observer(() => {
   const [, setAdress] = useState('');
   const [touchStart, setTouchStart] = useState<number>(0);
   const [, setTouchEnd] = useState(0);
-  //const [isScrolling, setIsScrolling] = useState(false);
-  // const containerRef = useRef(null);
-  // const [activeVerb, setActiveVerb] = useState('x');
-  // const [activeNoun, setActiveNoun] = useState('y');
+
   
- 
-  async function getAIAnswer(action: string) {
+  const updateDescriptionContent = (newContent: string) => {
+    const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
+    lastContent = descriptionPanel.innerHTML;
+    descriptionPanel.innerHTML = newContent;
+  }
+
+  const getHeader = (verb: string, noun: string, location : string) => {
+    return (
+      ` <div class = "desc-header"> 
+          <button class = "desc-button" id="verb-desc-button" >
+             <u> ${verb}</u>
+          </button>  
+          <button class = "desc-button" id="noun-desc-button">
+             <u> ${noun}</u>
+          </button> 
+          ${location}
+       </div>`
+    );
+  }
+
+  const updateListeners = (verb: string, noun: string) => {
+    // Attach event listeners after content is injected
+    const verbButton = document.getElementById("verb-desc-button");
+    const nounButton = document.getElementById("noun-desc-button");
+    const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement; ;
+    const closeButton= document.querySelector(".back-button") as HTMLDivElement; ;
+    if (verbButton) {
+      verbButton.addEventListener("click", () => {
+
+       lastContent = descriptionPanel.innerHTML;
+       descriptionPanel.innerHTML = "<br>"   +verb + dummyText+
+       "<br><br><img src="+ dummyImage+" class =image />";
+      descriptionPanel.style.backgroundColor = "white";
+      descriptionPanel.style.color = "black";
+      closeButton.innerHTML = "Back";
+      });
+    }
+  
+    if (nounButton) {
+      nounButton.addEventListener("click", () => {
+
+        lastContent = descriptionPanel.innerHTML;
+        descriptionPanel.innerHTML = "<br>"   +noun + dummyText+
+        "<br><br><img src="+ dummyImage+" class =image />";
+       descriptionPanel.style.backgroundColor = "white";
+       descriptionPanel.style.color = "black";
+       closeButton.innerHTML = "Back";
+      });
+    }
+  }
+
+  async function getAIAnswer(verb: string, noun: string) {
 
     await getLocation();
-
+  
     // wait for one second
     await new Promise(resolve => setTimeout(resolve, 1000));
-
+    const action = `${verb} ${noun}`
     console.log("LAST ADRESS when asking for AI answer: " +lastAdress);
     const completion = await openai.chat.completions.create({
       messages: [{ role: "system", 
@@ -69,9 +120,11 @@ const Gui = observer(() => {
         to ${action} in  ${lastAdress}` }],
       model: "gpt-3.5-turbo",
     });
+    var header = getHeader(verb, noun, lastAdress);
+    var content = `${ header} ${completion.choices[0].message.content}`;
+    updateDescriptionContent (content);
+    updateListeners(verb, noun);
 
-    const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
-    descriptionPanel.innerHTML = `<h2>${action + " in " + lastAdress} </h2> ${completion.choices[0].message.content}`;
   }
 
 
@@ -107,7 +160,6 @@ const Gui = observer(() => {
       if (request.readyState == 4 && request.status == 200) {
         var data = JSON.parse(request.responseText);
         var address = data.results[0];
-        console.log(address.address_components[3].short_name);
         lastAdress = address.address_components[3].short_name; 
         setAdress(address);
       }
@@ -115,10 +167,24 @@ const Gui = observer(() => {
     request.send();
   }
 
-  const onCloseClicked = () => {
+  function onBackClick(): void {
+
     const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
-    descriptionPanel.classList.add("hide");
-  };
+    const backButton = document.querySelector(".back-button") as HTMLButtonElement;
+    if (lastContent==="" || lastContent.includes("Loading AI answer")) {
+      descriptionPanel.classList.add("hide");
+
+      backButton.classList.add("hide");
+    } else
+    {
+      descriptionPanel.style.backgroundColor = boxColors[0];
+      descriptionPanel.style.color = "white";
+       descriptionPanel.innerHTML = lastContent;
+       backButton.innerHTML = "Close";
+       lastContent="";
+       updateListeners(lastVerb, lastNoun);
+    }
+  }
 
   const handleClick = (noun: string) => {
   
@@ -128,6 +194,8 @@ const Gui = observer(() => {
      "<br><br><img src="+ dummyImage+" class =image />";
     descriptionPanel.style.backgroundColor = "white";
     descriptionPanel.style.color = "black";
+    const backButton = document.querySelector(".back-button") as HTMLButtonElement;
+    backButton.innerHTML = "back";
   };
 
   
@@ -137,11 +205,13 @@ const Gui = observer(() => {
     // const locationValue = location.value;
     const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
     descriptionPanel.classList.remove("hide");
+    const backButton = document.querySelector(".back-button") as HTMLButtonElement;
+    backButton.classList.remove("hide");
     descriptionPanel.innerHTML = '<br> <br> Loading AI answer, it might take a couple of'+
     ' seconds for '+ lastVerb + ' ' + lastNoun + ', please stand by...';
     descriptionPanel.style.backgroundColor = boxColors[0];
 
-    getAIAnswer(`${lastVerb} ${lastNoun}`);
+    getAIAnswer(lastVerb, lastNoun);
   }, []);
 
   const addVerbButton = (verb: string) => {
@@ -303,7 +373,10 @@ const Gui = observer(() => {
           </div>  
         </div>
         <div className="footer"> {addAICountrol()} </div>
-        <div className="description-panel hide" onClick={() => onCloseClicked()}></div>
+        <div className="description-panel hide" > </div>
+        <button className="back-button hide" id = "back-button" onClick = {
+          () => onBackClick()}>{"Close"}
+          </button>
       </div>
     );
   };
