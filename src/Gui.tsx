@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { observer } from 'mobx-react';
 import OpenAI from "openai";
 import lockImage from './gui/lock.png';
@@ -156,8 +156,8 @@ const Gui = observer(() => {
         ref={el => verbButtonRefs.current[i] = el as HTMLButtonElement}
         id = {verb + "-button"}
         onClick={() => handleClick(verb)}
-        style={{ color: isMiddle ? boxColors[0] : 'white'}}>
-        {verb.charAt(0).toLowerCase() + verb.slice(1)}
+        style={{ backgroundColor: isMiddle ? boxColors[0] : 'transparent'}}>
+        {verb.toUpperCase() }
       </button>
     );
   };
@@ -172,10 +172,37 @@ const Gui = observer(() => {
         ref={el => nounButtonRefs.current[i] = el as HTMLButtonElement}
         id ={noun + "-button"}
         onClick={() => handleClick(noun)}
-        style={{   color: isMiddle ? boxColors[0] : 'white'  }}>
-        {noun.charAt(0).toLowerCase() + noun.slice(1)}
+        style={{  backgroundColor: isMiddle ? boxColors[0] : 'transparent'  }}>
+        {noun.toUpperCase()}
       </button>
     );
+  };
+
+  const updateScale = (btn: HTMLButtonElement) => {
+    const rect = btn.getBoundingClientRect();
+    const screenHeight = window.innerHeight;
+
+    // Calculate the vertical distance from the center of the viewport
+    const elementCenter = rect.top + rect.height / 2;
+    const viewportCenter = screenHeight / 2;
+    const distanceFromCenter = Math.abs(viewportCenter - elementCenter);
+
+    // Normalize the distance as a fraction of half the viewport height
+    const maxDistance = screenHeight / 2;
+    const threshold = 100; // You can adjust this value to increase or decrease the range
+
+    let scale;
+    if (distanceFromCenter < threshold) {
+        // Buttons within the threshold from the center have no scaling
+        scale = 1;
+    } else {
+        // Buttons outside the threshold scale according to their distance from the center
+        scale = 1 - ((distanceFromCenter - threshold) / (maxDistance - threshold)) * 1;
+        scale = Math.max(0.5, scale); // Ensure scale doesn't go below 0.5
+    }
+    // Apply the scale transformation
+    //btn.style.transform = `scale(${scale})`;
+    btn.style.transform = `scale(1,${scale})`;
   };
 
   const onScroll = (deltyY :number, isLeft: boolean) => {
@@ -188,21 +215,6 @@ const Gui = observer(() => {
     } else if (deltyY > 0) {
       if (isLeft || isLocked) { verbs.push(verbs.shift() as string);}
       if (!isLeft|| isLocked) { nouns.push(nouns.shift() as string);}
-
-      //HACK to fix not changing color in this direction
-      if (isLeft|| isLocked) {
-         verbButtonRefs.current.forEach((btn, index) => {
-            let isMiddle = index-1 ===  Math.floor(verbs.length / 2);
-           btn.style.color = isMiddle ? boxColors[0] : 'white';
-         });
-      }
-      if (!isLeft || isLocked)
-      {
-      nounButtonRefs.current.forEach((btn, index) => {
-        let isMiddle =  index-1 === Math.floor(nouns.length / 2);
-        btn.style.color = isMiddle ? boxColors[0] : 'white';
-      });
-    }
     }
     if (isLeft|| isLocked) setVerbs([...verbs]);
     if (!isLeft || isLocked) setNouns([...nouns]);
@@ -210,8 +222,16 @@ const Gui = observer(() => {
     
       lastVerb = verbs[7];
       lastNoun = nouns[7];
-    
+
+      // nounButtonRefs.current.forEach((btn) => { updateScale(btn); });
+      // verbButtonRefs.current.forEach((btn) => {updateScale(btn);});
+
   };
+
+  useEffect(() => {
+    nounButtonRefs.current.forEach((btn) => { updateScale(btn); });
+    verbButtonRefs.current.forEach((btn) => { updateScale(btn); });
+}, [verbs, nouns]); // Only run when `verbs` or `nouns` changes
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.touches[0].clientY as number);
@@ -251,7 +271,7 @@ const Gui = observer(() => {
         <button className={"ask-button"} 
           style={{ backgroundColor: boxColors[0] }} 
           onClick={() => onAIClicked()}>
-          {"How to act here?"}
+          {"Here Now"}
         </button>
       </div>
     );
