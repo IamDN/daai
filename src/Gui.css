@@ -146,7 +146,7 @@ body {
   }
 
   .layer-button:hover {
-    color: grey;
+    color: rgb(198, 198, 198);
   }
 
   .ask-button {
