@@ -7,6 +7,7 @@ import  dummyImage  from './gui/img1.jpg';
 import './Gui.css';
 
 
+
 const dummyText = "<br> <br> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."; 
 
 const initVerbs: string[] = [
@@ -34,7 +35,7 @@ var lastVerb = initVerbs[7];
 var lastNoun = initNouns[7];
 var lastAdress = '';
 var lastContent = "";
-
+var lastlastContent = "";
 
 
 const Gui = observer(() => {
@@ -105,25 +106,108 @@ const Gui = observer(() => {
     }
   }
 
-  async function getAIAnswer(verb: string, noun: string) {
+  const updateListenersAI = () => {
 
-    await getLocation();
+    // Attach event listeners after content is injected
+    const bookButtons = document.getElementsByClassName("book-button");
+    console.log("Update Listeners AI " + bookButtons.length);
+    for (let i = 0; i < bookButtons.length; i++) {
+      console.log(bookButtons[i].id);
+      bookButtons[i].addEventListener("click", () => {
+        const text = bookButtons[i].id;
+        const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
+        descriptionPanel.classList.remove("hide");
+        const backButton = document.querySelector(".back-button") as HTMLButtonElement;
+        backButton.innerHTML = "Back";
+        descriptionPanel.innerHTML = '<br> <br> Loading AI answer for '
+        + bookButtons[i].id + ', it might take a couple of' +
+        ' seconds, please stand by...';
+             getAIAnswer(text, "", 2);
+       });
+    }
+  }
+
+  async function getAIAnswer(verb: string, noun: string, type: number) {
+    if (type === 0)
+       await getLocation();
   
+    var question = "";
+    if (type === 0)
+    {
+      question = `Give me 5 examples of how ${verb} ${noun} in ${lastAdress}`
+      + '##Rules'
+      +'- give me some specific locations or institutions'
+      +'- be natural, use "go to", "make sure", "just do"'
+      +'- make sure this examples can help me in better urban planning'
+      +'- keep it short, just 20 words per example'
+      +'- do not use any formatting or heading, just a plain text'
+      +'- Act as you are are urban design academic '
+    } else if (type ===1)
+    {
+      question = `Give me academic literature relevant to ${verb} ${noun}`
+      + ' ##Rules'
+      +'- keep it short, max 3 books and 3 papers per example'
+      +'- make it relevant in terms of urban designing'
+      +'- use html for formatting and makes gaps beatwen books and papers'
+      +'- make sure each item is sparated div'
+      +'- add to formation for div in the value as name of book or paper'
+      +'- add to formation for div id as name of the book or paper'
+      +'- add to formation for div classname = "book-button"'
+      +'- make sure each name is in bold'
+      +'- skip context, just the list of books and papers'
+      +'- prefer literature from Futute cities laboratory or ETH Zurich'
+
+    } else if (type ===2)
+    {
+
+      question = `Give me summary 200 words of the publication ${verb}`
+
+    }else if (type ===4)
+      {
+  
+        question = `Give me academic literature relevant to ${verb} ${noun}`
+        + ' ##Rules'
+        +'- keep it short, max 3 books and 3 papers per example'
+        +'- make it relevant in terms of urban designing'
+        +'- use html for formatting and makes gaps beatwen books and papers'
+        +'- make sure each item is sparated div'
+        +'- add to formation for div in the value as name of book or paper'
+        +'- add to formation for div id as name of the book or paper'
+        +'- add to formation for div classname = "book-button"'
+        +'- make sure each name is in bold'
+        +'- skip context, just the list of books and papers'
+        +'- prefer literature from Futute cities laboratory or ETH Zurich'
+  
+      }
+    console.log(question);
     // wait for one second
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    const action = `${verb} ${noun}`
-    console.log("LAST ADRESS when asking for AI answer: " +lastAdress);
+    if (type === 0)
+       await new Promise(resolve => setTimeout(resolve, 1000));
     const completion = await openai.chat.completions.create({
-      messages: [{ role: "system", 
-        content: `Act as urban planner and try to be very location specific 
-        (ideally with specific district names). Give me 5 recommendations on how 
-        to ${action} in  ${lastAdress}` }],
-      model: "gpt-3.5-turbo",
+      messages: [{ role: "system", content: question }],
+      model: "gpt-4",
     });
+    
     var header = getHeader(verb, noun, lastAdress);
     var content = `${ header} ${completion.choices[0].message.content}`;
+    if (type === 0) lastlastContent = content;
     updateDescriptionContent (content);
-    updateListeners(verb, noun);
+    if (type === 1)
+      updateListenersAI();
+    else if (type ===0)
+    {
+      updateListeners(verb, noun);
+      getAIAnswer(verb, noun,4);
+    }
+
+    if (type === 4)
+    {
+      console.log("....:4 " +lastlastContent );
+      const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
+      lastContent = descriptionPanel.innerHTML;
+      descriptionPanel.innerHTML =  lastlastContent + "<br><br>" + completion.choices[0].message.content;
+      updateListenersAI();
+    }
 
   }
 
@@ -200,18 +284,20 @@ const Gui = observer(() => {
 
   
 
-  const onAIClicked = useCallback(() => {
+  const onAIClicked = useCallback((here:number) => {
     // const location = document.querySelector(".location-input") as HTMLInputElement;
     // const locationValue = location.value;
     const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
     descriptionPanel.classList.remove("hide");
     const backButton = document.querySelector(".back-button") as HTMLButtonElement;
     backButton.classList.remove("hide");
-    descriptionPanel.innerHTML = '<br> <br> Loading AI answer, it might take a couple of'+
-    ' seconds for '+ lastVerb + ' ' + lastNoun + ', please stand by...';
+    const type = here === 0 ? " here and now advice" : "  literature review";
+    descriptionPanel.innerHTML = '<br> <br> Loading AI answer for '
+    + lastVerb + ' ' + lastNoun + type+ ', it might take a couple of' +
+    ' seconds, please stand by...';
     descriptionPanel.style.backgroundColor = boxColors[0];
 
-    getAIAnswer(lastVerb, lastNoun);
+    getAIAnswer(lastVerb, lastNoun, here);
   }, []);
 
   const addVerbButton = (verb: string) => {
@@ -325,7 +411,7 @@ const Gui = observer(() => {
 
 
   const addAICountrol = () => {
-    const lockName: string = isLocked ? "Unlock berserk mode" : "Lock to basic mode";
+    const lockName: string = isLocked ? "Unlock free mode" : "Lock to beginer";
     const lockSrc = isLocked ? lockImage : unlockImage;;
     const onLockClicked = () => {
       setIsLocked(!isLocked);
@@ -340,8 +426,13 @@ const Gui = observer(() => {
         </button>
         <button className={"ask-button"} 
           style={{ backgroundColor: boxColors[0] }} 
-          onClick={() => onAIClicked()}>
+          onClick={() => onAIClicked(0)}>
           {"Here Now"}
+        </button>
+        <button className={"review-button"} 
+          style={{ backgroundColor: boxColors[0] }} 
+          onClick={() => onAIClicked(1)}>
+          {"Literature Review"}
         </button>
       </div>
     );

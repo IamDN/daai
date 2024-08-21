@@ -119,13 +119,19 @@ body {
   text-align: left;
   float: left;
 }
+.book-button{
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 2.8vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
 .layer-button{
 
     display: flex;
     flex-direction: row;
     width: 100%;
-    border-radius:50px;
+
     background-color: transparent;
     border: 0px solid;
     color: white;
@@ -139,15 +145,20 @@ body {
     font-size: 2.8vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
+
   .l{
+    width: 175px;
+    border-radius:50px 0px 0px 50px;
     justify-content: right;
   }
   .r{
+    width: 175px;
+    border-radius:0px 50px 50px 0px;
     justify-content: left;
   }
   .active {
     width: 100%;
-
+    border : 0px solid;
     background-color:  rgb(61, 242, 203);
     font-size: 2.8vh;
     -webkit-transform:scale(1,1); /* Safari and Chrome */
@@ -197,8 +208,30 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: background-color 10s;
   }
+  .review-button {
+    position: absolute; 
+    width: 18vh;
+    height: 18vh;
+
+    left: 20px;
+    bottom: 20px;
+    border: 0px solid;
+    color: white;
+    padding: 15px; 
+    /* padding-left: 15px;
+    margin: 7px; */ 
+    cursor: pointer;
+    align-items: center;
+    font-size: 3.3vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 10s;
+  }
   .lock-button 
   {
+    position: absolute;
+    left: 47%;
+    width: 3%;
+    bottom: 60%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -209,8 +242,8 @@ body {
   }
 
   .lock-icon {
-    width: 10vh;
-    height: 10vh;
+    width: 6vh;
+    height: 6vh;
   }
   .lock-spam {
     color: rgb(255, 255, 255);
