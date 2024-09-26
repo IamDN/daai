@@ -4,6 +4,7 @@ import OpenAI from "openai";
 import lockImage from './gui/lock.png';
 import unlockImage from './gui/unlock.png';
 import  dummyImage  from './gui/img1.jpg';
+import { getAddress } from './location.tsx';
 import './Gui.css';
 
 
@@ -128,13 +129,12 @@ const Gui = observer(() => {
   }
 
   async function getAIAnswer(verb: string, noun: string, type: number) {
-    if (type === 0)
-       await getLocation();
-  
+
     var question = "";
     if (type === 0)
     {
-      question = `Give me 5 examples of how ${verb} ${noun} in ${lastAdress}`
+      const address = await getAddress();
+      question = `Give me 5 examples of how ${verb} ${noun} in ${address}`
       + '##Rules'
       +'- give me some specific locations or institutions'
       +'- be natural, use "go to", "make sure", "just do"'
@@ -209,46 +209,6 @@ const Gui = observer(() => {
       updateListenersAI();
     }
 
-  }
-
-
-  async function getLocation() {
-
-    if (navigator.geolocation) {
-      await navigator.geolocation.getCurrentPosition(
-        position => {
-          setLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          });
-          displayLocation(position.coords.latitude, position.coords.longitude)
-        },
-        error => {
-          console.error("Error getting location:", error);
-        }
-      );
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-    
-  }
-
-  async function displayLocation(latitude: number, longitude: number) {
-    var request = new XMLHttpRequest();
-    var method = 'GET';
-    var url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true&key=${import.meta.env.VITE_GOOGLE_KEY}`;
-    var async = true;
-
-    request.open(method, url, async);
-    request.onreadystatechange = function () {
-      if (request.readyState == 4 && request.status == 200) {
-        var data = JSON.parse(request.responseText);
-        var address = data.results[0];
-        lastAdress = address.address_components[3].short_name; 
-        setAdress(address);
-      }
-    };
-    request.send();
   }
 
   function onBackClick(): void {
@@ -411,7 +371,7 @@ const Gui = observer(() => {
 
 
   const addAICountrol = () => {
-    const lockName: string = isLocked ? "Unlock free mode" : "Lock to beginer";
+    const lockName: string = isLocked ? "" : "";
     const lockSrc = isLocked ? lockImage : unlockImage;;
     const onLockClicked = () => {
       setIsLocked(!isLocked);

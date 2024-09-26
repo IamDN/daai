@@ -229,9 +229,9 @@ body {
   .lock-button 
   {
     position: absolute;
-    left: 47%;
+    left: 50%;
     width: 3%;
-    bottom: 60%;
+    bottom: 150%;
     display: flex;
     justify-content: center;
     align-items: center;
