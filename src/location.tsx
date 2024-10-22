@@ -53,8 +53,6 @@ async function getAdressFromGoogle(long: number, lat: number): Promise<string> {
       const geocodeData = await geocodeResponse.json();
       const address = geocodeData.results[0];
   
-      console.log(address);
-  
       // Assuming `lastAdress` and `setAdress` are defined elsewhere
       return address.address_components[2].short_name;  // 
 }

@@ -1,25 +1,29 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { observer } from 'mobx-react';
-import OpenAI from "openai";
 import lockImage from './gui/lock.png';
 import unlockImage from './gui/unlock.png';
 import  dummyImage  from './gui/img1.jpg';
 import { getAddress } from './location.tsx';
+import { getAnswer } from './Ai.ts';
 import './Gui.css';
+import { StaticSource } from './StaticSource.ts';
 
 
 
-const dummyText = "<br> <br> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."; 
+interface WordData {
+  description: string;
+  references: {
+    author: string;
+    year: number;
+    title: string;
+    journal?: string;
+    volume?: number;
+    issue?: number;
+    pages?: string;
+    publisher?: string;
+  }[];
+  imageLinks: string[];
+}
 
-const initVerbs: string[] = [
-  "Evolve", "Craft", "Assemble", "Create", "Empower", "Inform", "Inspire","Sense", "Describe", "Recognise", "Analyse", "Identify", "Evaluate", "Imagine",
-  "Generate"
-];
-
-const initNouns: string[] = [
-  "Concepts", "Materials", "Projects", "Formats", "Participants", "Stakeholders", "Coalitions","Lifeworlds", "Needs", "Aspirations", "Data", "Limits", "Potentials", "Scenarios",
-  "ideas"
-];
 const colors = [
   '#D4A5A5', // Pastel Cool Red
   '#C2D9A1', // Pastel Yellow-Green
@@ -32,21 +36,22 @@ const colors = [
   '#F5CBA7', // Pastel Warm Yellow
   '#4C8C7B'  // Dark Cool Moss Green
 ];
-var lastVerb = initVerbs[7];
-var lastNoun = initNouns[7];
+var lastVerb ="" ;
+var lastNoun="";
 var lastAdress = '';
 var lastContent = "";
 var lastlastContent = "";
 
 
-const Gui = observer(() => {
-
+const Gui = ({ preloadedData }: { preloadedData: [string[], string[]] }) => {
+  const [firstRow, secondRow] = preloadedData;
+  lastVerb = firstRow[7];
+  lastNoun =secondRow[7];
   const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)];
   const verbButtonRefs = useRef<HTMLButtonElement[]>([]);
   const nounButtonRefs = useRef<HTMLButtonElement[]>([]);
-  const openai = new OpenAI({ apiKey: import.meta.env.VITE_API_KEY, dangerouslyAllowBrowser: true });
-  const [verbs, setVerbs] = useState<string[]>(initVerbs);
-  const [nouns, setNouns] = useState<string[]>(initNouns);
+  const [verbs, setVerbs] = useState<string[]>(firstRow);
+  const [nouns, setNouns] = useState<string[]>(secondRow);
   const [isLocked, setIsLocked] = useState(true);
   const [lastRan, setLastRan] = useState(0);
   const [boxColors, ] = useState([getRandomColor()]);
@@ -76,34 +81,43 @@ const Gui = observer(() => {
     );
   }
 
+
+  const wordAction = function (word: string)  {
+
+    const source = new StaticSource();
+    source.getWordData(word)
+      .then((data : WordData) => {
+    console.log(data);
+  
+    const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement; ;
+    descriptionPanel.classList.remove("hide");
+    const closeButton= document.querySelector(".back-button") as HTMLDivElement; 
+    closeButton.classList.remove("hide");
+    lastContent = descriptionPanel.innerHTML;
+    descriptionPanel.innerHTML = "<br>"   +word + data.description+
+    "<br><br><img src="+ data.imageLinks[0]+" class =image />"
+    + <br> </br> + data.references[0].author + data.references[0].year + data.references[0].title + data.references[0].journal + data.references[0].volume + data.references[0].issue + data.references[0].pages + data.references[0].publisher;
+   descriptionPanel.style.backgroundColor = "white";
+   descriptionPanel.style.color = "black";
+   closeButton.innerHTML = "Back";
+
+  })
+  .catch(error => {
+    console.error("Error preloading data:", error);
+  });
+  }
+
+
+
   const updateListeners = (verb: string, noun: string) => {
     // Attach event listeners after content is injected
     const verbButton = document.getElementById("verb-desc-button");
     const nounButton = document.getElementById("noun-desc-button");
-    const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement; ;
-    const closeButton= document.querySelector(".back-button") as HTMLDivElement; ;
     if (verbButton) {
-      verbButton.addEventListener("click", () => {
-
-       lastContent = descriptionPanel.innerHTML;
-       descriptionPanel.innerHTML = "<br>"   +verb + dummyText+
-       "<br><br><img src="+ dummyImage+" class =image />";
-      descriptionPanel.style.backgroundColor = "white";
-      descriptionPanel.style.color = "black";
-      closeButton.innerHTML = "Back";
-      });
+      verbButton.addEventListener("click",() => wordAction (verb));
     }
-  
     if (nounButton) {
-      nounButton.addEventListener("click", () => {
-
-        lastContent = descriptionPanel.innerHTML;
-        descriptionPanel.innerHTML = "<br>"   +noun + dummyText+
-        "<br><br><img src="+ dummyImage+" class =image />";
-       descriptionPanel.style.backgroundColor = "white";
-       descriptionPanel.style.color = "black";
-       closeButton.innerHTML = "Back";
-      });
+      nounButton.addEventListener("click", () => wordAction(noun) );
     }
   }
 
@@ -179,17 +193,12 @@ const Gui = observer(() => {
         +'- prefer literature from Futute cities laboratory or ETH Zurich'
   
       }
-    console.log(question);
+
     // wait for one second
-    if (type === 0)
-       await new Promise(resolve => setTimeout(resolve, 1000));
-    const completion = await openai.chat.completions.create({
-      messages: [{ role: "system", content: question }],
-      model: "gpt-4",
-    });
-    
+    const completion = await getAnswer(question);
+
     var header = getHeader(verb, noun, lastAdress);
-    var content = `${ header} ${completion.choices[0].message.content}`;
+    var content = `${ header} ${completion}`;
     if (type === 0) lastlastContent = content;
     updateDescriptionContent (content);
     if (type === 1)
@@ -205,7 +214,7 @@ const Gui = observer(() => {
       console.log("....:4 " +lastlastContent );
       const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
       lastContent = descriptionPanel.innerHTML;
-      descriptionPanel.innerHTML =  lastlastContent + "<br><br>" + completion.choices[0].message.content;
+      descriptionPanel.innerHTML =  lastlastContent + "<br><br>" + `${completion}`;
       updateListenersAI();
     }
 
@@ -230,17 +239,17 @@ const Gui = observer(() => {
     }
   }
 
-  const handleClick = (noun: string) => {
+  // const handleClick = (noun: string) => {
   
-    const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
-    descriptionPanel.classList.remove("hide");
-    descriptionPanel.innerHTML = "<br>"   +noun + dummyText+
-     "<br><br><img src="+ dummyImage+" class =image />";
-    descriptionPanel.style.backgroundColor = "white";
-    descriptionPanel.style.color = "black";
-    const backButton = document.querySelector(".back-button") as HTMLButtonElement;
-    backButton.innerHTML = "back";
-  };
+  //   const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
+  //   descriptionPanel.classList.remove("hide");
+  //   descriptionPanel.innerHTML = "<br>"   +noun + dummyText+
+  //    "<br><br><img src="+ dummyImage+" class =image />";
+  //   descriptionPanel.style.backgroundColor = "white";
+  //   descriptionPanel.style.color = "black";
+  //   const backButton = document.querySelector(".back-button") as HTMLButtonElement;
+  //   backButton.innerHTML = "back";
+  // };
 
   
 
@@ -271,7 +280,7 @@ const Gui = observer(() => {
         key={verb}
         ref={el => verbButtonRefs.current[i] = el as HTMLButtonElement}
         id = {verb + "-button"}
-        onClick={() => handleClick(verb)}
+        onClick={() => wordAction (verb)}
         style={{ backgroundColor: isMiddle ? boxColors[0] : 'transparent'}}>
         {verb.toUpperCase() }
       </button>
@@ -287,7 +296,7 @@ const Gui = observer(() => {
         key={noun}
         ref={el => nounButtonRefs.current[i] = el as HTMLButtonElement}
         id ={noun + "-button"}
-        onClick={() => handleClick(noun)}
+        onClick={() => wordAction (noun)}
         style={{  backgroundColor: isMiddle ? boxColors[0] : 'transparent'  }}>
         {noun.toUpperCase()}
       </button>
@@ -437,6 +446,6 @@ const Gui = observer(() => {
       {drawGUI()}
     </div>
   );
-});
+};
 
 export default Gui;
