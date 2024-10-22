@@ -2,8 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import lockImage from './gui/lock.png';
 import unlockImage from './gui/unlock.png';
 import  dummyImage  from './gui/img1.jpg';
-import { getAddress } from './location.tsx';
-import { getAnswer } from './Ai.ts';
+
+import { getAIAnswer } from './Ai';
+
 import './Gui.css';
 import { StaticSource } from './StaticSource.ts';
 
@@ -142,81 +143,43 @@ const Gui = ({ preloadedData }: { preloadedData: [string[], string[]] }) => {
     }
   }
 
-  async function getAIAnswer(verb: string, noun: string, type: number) {
+  async function getLocation() {
 
-    var question = "";
-    if (type === 0)
-    {
-      const address = await getAddress();
-      question = `Give me 5 examples of how ${verb} ${noun} in ${address}`
-      + '##Rules'
-      +'- give me some specific locations or institutions'
-      +'- be natural, use "go to", "make sure", "just do"'
-      +'- make sure this examples can help me in better urban planning'
-      +'- keep it short, just 20 words per example'
-      +'- do not use any formatting or heading, just a plain text'
-      +'- Act as you are are urban design academic '
-    } else if (type ===1)
-    {
-      question = `Give me academic literature relevant to ${verb} ${noun}`
-      + ' ##Rules'
-      +'- keep it short, max 3 books and 3 papers per example'
-      +'- make it relevant in terms of urban designing'
-      +'- use html for formatting and makes gaps beatwen books and papers'
-      +'- make sure each item is sparated div'
-      +'- add to formation for div in the value as name of book or paper'
-      +'- add to formation for div id as name of the book or paper'
-      +'- add to formation for div classname = "book-button"'
-      +'- make sure each name is in bold'
-      +'- skip context, just the list of books and papers'
-      +'- prefer literature from Futute cities laboratory or ETH Zurich'
+    if (navigator.geolocation) {
+      await navigator.geolocation.getCurrentPosition(
+        position => {
+          setLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          });
+          displayLocation(position.coords.latitude, position.coords.longitude)
+        },
+        error => {
+          console.error("Error getting location:", error);
+        }
+      );
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+    
+  }
 
-    } else if (type ===2)
-    {
+  async function displayLocation(latitude: number, longitude: number) {
+    var request = new XMLHttpRequest();
+    var method = 'GET';
+    var url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true&key=${import.meta.env.VITE_GOOGLE_KEY}`;
+    var async = true;
 
-      question = `Give me summary 200 words of the publication ${verb}`
-
-    }else if (type ===4)
-      {
-  
-        question = `Give me academic literature relevant to ${verb} ${noun}`
-        + ' ##Rules'
-        +'- keep it short, max 3 books and 3 papers per example'
-        +'- make it relevant in terms of urban designing'
-        +'- use html for formatting and makes gaps beatwen books and papers'
-        +'- make sure each item is sparated div'
-        +'- add to formation for div in the value as name of book or paper'
-        +'- add to formation for div id as name of the book or paper'
-        +'- add to formation for div classname = "book-button"'
-        +'- make sure each name is in bold'
-        +'- skip context, just the list of books and papers'
-        +'- prefer literature from Futute cities laboratory or ETH Zurich'
-  
+    request.open(method, url, async);
+    request.onreadystatechange = function () {
+      if (request.readyState == 4 && request.status == 200) {
+        var data = JSON.parse(request.responseText);
+        var address = data.results[0];
+        lastAdress = address.address_components[3].short_name; 
+        setAdress(address);
       }
-
-    // wait for one second
-    const completion = await getAnswer(question);
-
-    var header = getHeader(verb, noun, lastAdress);
-    var content = `${ header} ${completion}`;
-    if (type === 0) lastlastContent = content;
-    updateDescriptionContent (content);
-    if (type === 1)
-      updateListenersAI();
-    else if (type ===0)
-    {
-      updateListeners(verb, noun);
-      getAIAnswer(verb, noun,4);
-    }
-
-    if (type === 4)
-    {
-      console.log("....:4 " +lastlastContent );
-      const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
-      lastContent = descriptionPanel.innerHTML;
-      descriptionPanel.innerHTML =  lastlastContent + "<br><br>" + `${completion}`;
-      updateListenersAI();
-    }
+    };
+    request.send();
 
   }
 
