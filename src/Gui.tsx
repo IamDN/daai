@@ -1,111 +1,104 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import lockImage from './gui/lock.png';
 import unlockImage from './gui/unlock.png';
-import  dummyImage  from './gui/img1.jpg';
-
+import React from 'react';
+import images from './imageLoader';
 import { getAIAnswer } from './Ai';
-
 import './Gui.css';
 import { StaticSource } from './StaticSource.ts';
-
-
+import { Console } from 'console';
+// src/webpack.d.ts
+const source = new StaticSource();
 
 interface WordData {
   description: string;
-  references: {
-    author: string;
-    year: number;
-    title: string;
-    journal?: string;
-    volume?: number;
-    issue?: number;
-    pages?: string;
-    publisher?: string;
-  }[];
+  literature: string[];
   imageLinks: string[];
 }
 
 const colors = [
-  '#D4A5A5', // Pastel Cool Red
-  '#C2D9A1', // Pastel Yellow-Green
-  '#4A6A8C', // Dark Cool Blue
-  '#D8A3B6', // Pastel Cool Pink
-  '#6F8F7B', // Pastel Cool Green
-  '#C2D9C2', // Pastel Yellowish Green
-  '#9A6E6C', // Dark Cool Red
-  '#7D8D92', // Pastel Cool Grayish Blue
-  '#F5CBA7', // Pastel Warm Yellow
-  '#4C8C7B'  // Dark Cool Moss Green
+  '#1B65A6', 
+  '#1D4B73', 
+  '#9CBCD9', 
+  '#417FA6', 
+  '#083040', 
 ];
+
+
 var lastVerb ="" ;
 var lastNoun="";
 var lastAdress = '';
 var lastContent = "";
-var lastlastContent = "";
 
 
 const Gui = ({ preloadedData }: { preloadedData: [string[], string[]] }) => {
   const [firstRow, secondRow] = preloadedData;
-  lastVerb = firstRow[7];
-  lastNoun =secondRow[7];
+  // lastVerb = firstRow[firstRow.length -1];
+  // lastNoun =secondRow[secondRow.length -1];
   const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)];
   const verbButtonRefs = useRef<HTMLButtonElement[]>([]);
   const nounButtonRefs = useRef<HTMLButtonElement[]>([]);
   const [verbs, setVerbs] = useState<string[]>(firstRow);
   const [nouns, setNouns] = useState<string[]>(secondRow);
+  const [lastVerb, setLastVerb] = useState(firstRow[firstRow.length - 1]);
+const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
   const [isLocked, setIsLocked] = useState(true);
   const [lastRan, setLastRan] = useState(0);
   const [boxColors, ] = useState([getRandomColor()]);
-  const [, setLocation] = useState({ latitude: 0, longitude: 0 });
-  const [, setAdress] = useState('');
   const [touchStart, setTouchStart] = useState<number>(0);
   const [, setTouchEnd] = useState(0);
 
+
+  const onWordClicked = function (word: string)  {
+
+    source.getWordData(word).then((data : WordData) => {
   
-  const updateDescriptionContent = (newContent: string) => {
-    const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
-    lastContent = descriptionPanel.innerHTML;
-    descriptionPanel.innerHTML = newContent;
-  }
+      const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement; ;
+      descriptionPanel.classList.remove("hide");
+      const closeButton= document.querySelector(".back-button") as HTMLDivElement; 
+      closeButton.classList.remove("hide");
+      closeButton.addEventListener("click", () => {
+        descriptionPanel.classList.add("hide");
+        closeButton.classList.add("hide");
+      })
+      lastContent = descriptionPanel.innerHTML;
 
-  const getHeader = (verb: string, noun: string, location : string) => {
-    return (
-      ` <div class = "desc-header"> 
-          <button class = "desc-button" id="verb-desc-button" >
-             <u> ${verb}</u>
-          </button>  
-          <button class = "desc-button" id="noun-desc-button">
-             <u> ${noun}</u>
-          </button> 
-          ${location}
-       </div>`
-    );
-  }
-
-
-  const wordAction = function (word: string)  {
-
-    const source = new StaticSource();
-    source.getWordData(word)
-      .then((data : WordData) => {
-    console.log(data);
-  
-    const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement; ;
-    descriptionPanel.classList.remove("hide");
-    const closeButton= document.querySelector(".back-button") as HTMLDivElement; 
-    closeButton.classList.remove("hide");
-    lastContent = descriptionPanel.innerHTML;
-    descriptionPanel.innerHTML = "<br>"   +word + data.description+
-    "<br><br><img src="+ data.imageLinks[0]+" class =image />"
-    + <br> </br> + data.references[0].author + data.references[0].year + data.references[0].title + data.references[0].journal + data.references[0].volume + data.references[0].issue + data.references[0].pages + data.references[0].publisher;
-   descriptionPanel.style.backgroundColor = "white";
-   descriptionPanel.style.color = "black";
-   closeButton.innerHTML = "Back";
-
-  })
-  .catch(error => {
-    console.error("Error preloading data:", error);
-  });
+      // Clear the existing content of descriptionPanel
+      descriptionPanel.innerHTML = "";
+      
+      // Add the title as a heading
+      const titleElement = document.createElement("h2");
+      titleElement.textContent = word;
+      descriptionPanel.appendChild(titleElement);
+      
+      // Add the description as a paragraph
+      const descriptionElement = document.createElement("p");
+      descriptionElement.textContent = data.description;
+      descriptionPanel.appendChild(descriptionElement);
+      
+      // Add all images
+      data.imageLinks.forEach(imageSrc => {
+          const imgElement = document.createElement("img");
+          imgElement.src = imageSrc;
+          descriptionPanel.appendChild(imgElement);
+      });
+      
+      // Add all literatures as a list
+      const literatureList = document.createElement("ul");
+      data.literature.forEach(literature => {
+          const literatureItem = document.createElement("li");
+          literatureItem.textContent = literature;
+          literatureList.appendChild(literatureItem);
+      });
+      descriptionPanel.appendChild(literatureList);
+          descriptionPanel.style.backgroundColor = "white";
+          descriptionPanel.style.color = "black";
+          closeButton.innerHTML = "Back";
+    
+    })
+    .catch(error => {
+      console.error("Error preloading data:", error);
+    });
   }
 
 
@@ -115,110 +108,43 @@ const Gui = ({ preloadedData }: { preloadedData: [string[], string[]] }) => {
     const verbButton = document.getElementById("verb-desc-button");
     const nounButton = document.getElementById("noun-desc-button");
     if (verbButton) {
-      verbButton.addEventListener("click",() => wordAction (verb));
+      verbButton.addEventListener("click",() => onWordClicked (verb));
     }
     if (nounButton) {
-      nounButton.addEventListener("click", () => wordAction(noun) );
+      nounButton.addEventListener("click", () => onWordClicked(noun) );
     }
-  }
-
-  const updateListenersAI = () => {
-
-    // Attach event listeners after content is injected
-    const bookButtons = document.getElementsByClassName("book-button");
-    console.log("Update Listeners AI " + bookButtons.length);
-    for (let i = 0; i < bookButtons.length; i++) {
-      console.log(bookButtons[i].id);
-      bookButtons[i].addEventListener("click", () => {
-        const text = bookButtons[i].id;
-        const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
-        descriptionPanel.classList.remove("hide");
-        const backButton = document.querySelector(".back-button") as HTMLButtonElement;
-        backButton.innerHTML = "Back";
-        descriptionPanel.innerHTML = '<br> <br> Loading AI answer for '
-        + bookButtons[i].id + ', it might take a couple of' +
-        ' seconds, please stand by...';
-             getAIAnswer(text, "", 2);
-       });
-    }
-  }
-
-  async function getLocation() {
-
-    if (navigator.geolocation) {
-      await navigator.geolocation.getCurrentPosition(
-        position => {
-          setLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          });
-          displayLocation(position.coords.latitude, position.coords.longitude)
-        },
-        error => {
-          console.error("Error getting location:", error);
-        }
-      );
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-    
-  }
-
-  async function displayLocation(latitude: number, longitude: number) {
-    var request = new XMLHttpRequest();
-    var method = 'GET';
-    var url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true&key=${import.meta.env.VITE_GOOGLE_KEY}`;
-    var async = true;
-
-    request.open(method, url, async);
-    request.onreadystatechange = function () {
-      if (request.readyState == 4 && request.status == 200) {
-        var data = JSON.parse(request.responseText);
-        var address = data.results[0];
-        lastAdress = address.address_components[3].short_name; 
-        setAdress(address);
-      }
-    };
-    request.send();
-
   }
 
   function onBackClick(): void {
-
+    // make lock visible
+    const lock = document.querySelector(".lock-button") as HTMLButtonElement;
+    lock.classList.remove("hide");
+    const lockicon = document.querySelector(".lock-icon") as HTMLButtonElement;
+    lockicon.classList.remove("hide");
     const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
     const backButton = document.querySelector(".back-button") as HTMLButtonElement;
     if (lastContent==="" || lastContent.includes("Loading AI answer")) {
       descriptionPanel.classList.add("hide");
-
       backButton.classList.add("hide");
     } else
     {
       descriptionPanel.style.backgroundColor = boxColors[0];
       descriptionPanel.style.color = "white";
-       descriptionPanel.innerHTML = lastContent;
-       backButton.innerHTML = "Close";
-       lastContent="";
-       updateListeners(lastVerb, lastNoun);
+      descriptionPanel.innerHTML = lastContent;
+      backButton.innerHTML = "Close";
+      lastContent="";
+      updateListeners(lastVerb, lastNoun);
     }
   }
-
-  // const handleClick = (noun: string) => {
-  
-  //   const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
-  //   descriptionPanel.classList.remove("hide");
-  //   descriptionPanel.innerHTML = "<br>"   +noun + dummyText+
-  //    "<br><br><img src="+ dummyImage+" class =image />";
-  //   descriptionPanel.style.backgroundColor = "white";
-  //   descriptionPanel.style.color = "black";
-  //   const backButton = document.querySelector(".back-button") as HTMLButtonElement;
-  //   backButton.innerHTML = "back";
-  // };
-
-  
 
   const onAIClicked = useCallback((here:number) => {
     // const location = document.querySelector(".location-input") as HTMLInputElement;
     // const locationValue = location.value;
+    const lock = document.querySelector(".lock-button") as HTMLButtonElement;
+    //add to classname hide
+    lock.classList.add("hide");
+    const lockicon = document.querySelector(".lock-icon") as HTMLButtonElement;
+    lockicon.classList.add("hide");
     const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
     descriptionPanel.classList.remove("hide");
     const backButton = document.querySelector(".back-button") as HTMLButtonElement;
@@ -228,43 +154,58 @@ const Gui = ({ preloadedData }: { preloadedData: [string[], string[]] }) => {
     + lastVerb + ' ' + lastNoun + type+ ', it might take a couple of' +
     ' seconds, please stand by...';
     descriptionPanel.style.backgroundColor = boxColors[0];
+    console.log(lastVerb, lastNoun);
+    source.getLiteratureFromWords(lastVerb, lastNoun).then((lit : string[]) => {
+  
+      getAIAnswer(lastVerb, lastNoun, lit);
+    
+    })
+    .catch(error => {
+      console.error("Error preloading data:", error);
+    });
 
-    getAIAnswer(lastVerb, lastNoun, here);
-  }, []);
 
-  const addVerbButton = (verb: string) => {
-    let i = verbs.indexOf(verb);
-    let isMiddle = verbs.indexOf(verb) === Math.floor(verbs.length / 2);
-    //let endOfGroup =Math.abs(i-verbs.indexOf(initVerbs[0]))%4 ===3;
-    //console.log("EOG " + (i-verbs.indexOf(initVerbs[0]))%4);
+  
+  }, [lastVerb, lastNoun]);
+
+  const addButton = (word: string, isVerb: boolean, test:number) => {
+    var list = isVerb ? verbs : nouns;
+    let isLast = list.indexOf(word) === verbs.length -1;
+    let i = list.indexOf(word);
+    const [firstRow, secondRow] = preloadedData;
+
+    const oriIdx = isVerb ? firstRow.indexOf(word) : secondRow.indexOf(word);
+    const side = isVerb ? ' left' : ' right';
+    const active = isLast ? ' active' : ' nonactive';
+    const color = ' color' + (Math.floor((oriIdx)/4)+1);
+    const name =  'layer-button' + side + active + color;
+    const colorIndex = oriIdx !== -1 ? Math.floor(oriIdx / 3) : 0;
     return (
       <button
-        className={isMiddle ? 'layer-button l active' : 'layer-button l nonactive'}
-        key={verb}
-        ref={el => verbButtonRefs.current[i] = el as HTMLButtonElement}
-        id = {verb + "-button"}
-        onClick={() => wordAction (verb)}
-        style={{ backgroundColor: isMiddle ? boxColors[0] : 'transparent'}}>
-        {verb.toUpperCase() }
+          className={name}
+          key={word}
+          ref={el => verbButtonRefs.current[i] = el as HTMLButtonElement}
+          id = {word + "-button"}
+          onClick={() => onWordClicked (word)}
+          value = {test}
+          style={{
+            backgroundColor: isLast ? colors[colorIndex ] : 'transparent', 
+            //backgroundColor: colors[colorIndex], 
+            borderColor: colors[colorIndex]
+          }}
+        >
+        {word.toLowerCase() } 
+        <img 
+          src={images[isVerb ? oriIdx : (oriIdx + 15)]}
+          className={isLast ? 'thumb' : 'thumb hide'}
+        />
+        <div className={isLast ? 'snippet' : 'snippet hide'}>
+          {"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "}
+        </div>
       </button>
     );
   };
 
-  const addNounButton = (noun: string) => {
-    let isMiddle = nouns.indexOf(noun) === Math.floor(nouns.length / 2);
-    let i = nouns.indexOf(noun);
-    return (
-      <button
-        className={isMiddle ? 'layer-button r active' : 'layer-button r nonactive'}
-        key={noun}
-        ref={el => nounButtonRefs.current[i] = el as HTMLButtonElement}
-        id ={noun + "-button"}
-        onClick={() => wordAction (noun)}
-        style={{  backgroundColor: isMiddle ? boxColors[0] : 'transparent'  }}>
-        {noun.toUpperCase()}
-      </button>
-    );
-  };
 
   const updateScale = (btn: HTMLButtonElement) => {
     const rect = btn.getBoundingClientRect();
@@ -290,30 +231,34 @@ const Gui = ({ preloadedData }: { preloadedData: [string[], string[]] }) => {
     }
     // Apply the scale transformation
     //btn.style.transform = `scale(${scale})`;
-    btn.style.transform = `scale(1,${scale})`;
+    //btn.style.transform = `scale(1,${scale})`;
   };
 
-  const onScroll = (deltyY :number, isLeft: boolean) => {
-    if (lastRan > (Date.now() - 200)) { return; }
+  const onScroll = (deltaY: number, isLeft: boolean) => {
+    if (lastRan > Date.now() - 200) return;
     setLastRan(Date.now());
   
-    if (deltyY < 0) {
-      if (isLeft|| isLocked) { verbs.unshift(verbs.pop() as string);}
-      if (!isLeft|| isLocked) { nouns.unshift(nouns.pop() as string);}
-    } else if (deltyY > 0) {
-      if (isLeft || isLocked) { verbs.push(verbs.shift() as string);}
-      if (!isLeft|| isLocked) { nouns.push(nouns.shift() as string);}
+    // Copy current state without mutation
+    const newVerbs = [...verbs];
+    const newNouns = [...nouns];
+  
+    if (deltaY < 0) {
+      if (isLeft || isLocked) newVerbs.unshift(newVerbs.pop() as string);
+      if (!isLeft || isLocked) newNouns.unshift(newNouns.pop() as string);
+    } else if (deltaY > 0) {
+      if (isLeft || isLocked) newVerbs.push(newVerbs.shift() as string);
+      if (!isLeft || isLocked) newNouns.push(newNouns.shift() as string);
     }
-    if (isLeft|| isLocked) setVerbs([...verbs]);
-    if (!isLeft || isLocked) setNouns([...nouns]);
-    if (isLeft|| isLocked)
-    
-      lastVerb = verbs[7];
-      lastNoun = nouns[7];
+  
+    // Update state with new arrays
+    if (isLeft || isLocked) setVerbs(newVerbs);
+    if (!isLeft || isLocked) setNouns(newNouns);
+  
 
-      // nounButtonRefs.current.forEach((btn) => { updateScale(btn); });
-      // verbButtonRefs.current.forEach((btn) => {updateScale(btn);});
-
+    // Update last items for listeners
+    setLastVerb(newVerbs[newVerbs.length - 1]);
+    setLastNoun(newNouns[newNouns.length - 1]);
+    console.log(newVerbs.toString() + " " + lastVerb);
   };
 
   useEffect(() => {
@@ -342,30 +287,34 @@ const Gui = ({ preloadedData }: { preloadedData: [string[], string[]] }) => {
   };
 
 
-  const addAICountrol = () => {
+  const addLock = () => {
     const lockName: string = isLocked ? "" : "";
     const lockSrc = isLocked ? lockImage : unlockImage;;
     const onLockClicked = () => {
       setIsLocked(!isLocked);
     }
     return (
+    <button className={"lock-button"} 
+    onClick={() => onLockClicked()}>
+      <img src={lockSrc} className="lock-icon" 
+        alt="lock/unlock icon" />
+      <span className="lock-spam">{lockName}</span>
+  </button>
+   );
+  }
+  const addAICountrol = () => {
+
+    const oriIdx = firstRow.indexOf(verbs[verbs.length - 1]) ;
+    const colorIndex = oriIdx !== -1 ? Math.floor(oriIdx / 3) : 0;
+    const color = colors[colorIndex];
+    return (
       <div>
-        <button className={"lock-button"} 
-          onClick={() => onLockClicked()}>
-            <img src={lockSrc} className="lock-icon" 
-              alt="lock/unlock icon" />
-            <span className="lock-spam">{lockName}</span>
-        </button>
         <button className={"ask-button"} 
-          style={{ backgroundColor: boxColors[0] }} 
+          style={{ backgroundColor: color  }} 
           onClick={() => onAIClicked(0)}>
           {"Here Now"}
         </button>
-        <button className={"review-button"} 
-          style={{ backgroundColor: boxColors[0] }} 
-          onClick={() => onAIClicked(1)}>
-          {"Literature Review"}
-        </button>
+
       </div>
     );
   };
@@ -381,7 +330,7 @@ const Gui = ({ preloadedData }: { preloadedData: [string[], string[]] }) => {
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}>
             <div className="container left">
-              {verbs.map((verb) => addVerbButton(verb))}
+              {verbs.map((verb, i) => addButton(verb, true,i))}
             </div>
           </div>
           <div className="nouns-panel" 
@@ -391,7 +340,7 @@ const Gui = ({ preloadedData }: { preloadedData: [string[], string[]] }) => {
             onTouchEnd={handleTouchEnd}>
           
             <div className="container right">
-              {nouns.map((noun) => addNounButton(noun))}
+              {nouns.map((noun,i ) => addButton(noun, false,i))}
             </div>
           </div>  
         </div>
@@ -399,8 +348,10 @@ const Gui = ({ preloadedData }: { preloadedData: [string[], string[]] }) => {
         <div className="description-panel hide" > </div>
         <button className="back-button hide" id = "back-button" onClick = {
           () => onBackClick()}>{"Close"}
-          </button>
+        </button>
+        <div> {addLock()} </div>
       </div>
+      
     );
   };
 

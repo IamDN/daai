@@ -7,10 +7,10 @@ body {
   position: absolute;
   text-align: center;
   left: 0px;
-  top: 10%;
-  bottom: 10%;
+  top: 8vh;
+  bottom: 5vh;
   width: 100%;
-  height: 80%;
+  height: 87vh;
   border: 0px solid rgb(0, 0, 0);
   background-color: black;
 }
@@ -26,11 +26,31 @@ body {
   height: 100%;
   color: azure;
   background-color: rgb(64, 58, 180);
-  font-size: 3.3vh;
+  /* font-size: 3.3vh; */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow-y: scroll;
   overflow-x: hidden;
 }
+.div-title{
+  font-size: 2.8vh;
+  margin-top: 1.5em;
+  margin-bottom: 1em;
+  color: rgb(255, 255, 255);
+}
+.div-advice{
+  font-size: 2.8vh;
+  margin-top: 0.5em;
+  margin-bottom: 0.1em;
+  color: rgb(255, 255, 255);
+}
+
+.div-reference{
+  font-size: 2.5vh;
+  margin-top: 0.2em;
+  margin-bottom: 0.8em;
+  color: rgb(181, 181, 181);
+}
+
 .desc-header{
   background-color: transparent;
   margin-top: 15px;
@@ -68,8 +88,8 @@ body {
 
 .footer {
   position: absolute;
- height: 10%;
- bottom: 0%;
+  height: 5vn;
+  bottom: 0%;
   width: 100%;
   background-color: black;
   text-align: left;
@@ -91,21 +111,29 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   transition: background-color 10s;
 }
+.snippet {
+  font-size: 1.3vh;
+}
 
 .header {
   position: absolute;
   top: 0%;
-  height: 10%;
+  height: 8vh;
   width: 100%;
   border: 0px;
-  padding: 1rem;
+  padding-left: 25px;
+  padding-top: 15px;
    background-color: black;
    text-align: left;
     color: azure;
     align-items: center;
-    font-size: 3.8vh;
+    font-size: 3.2vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
  }
+ .container  {
+  width: 100%;
+}
+
 .container.left  {
   top: 30px;
   padding-top: 5px;
@@ -127,59 +155,73 @@ body {
 }
 
 .layer-button{
-
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    height: 4vh;
     width: 100%;
-
     background-color: transparent;
-    border: 0px solid;
+    border: 0px solid; 
     color: white;
-    padding: 0px;
-    padding-right:8px;
-    padding-left:8px;
-    margin: 0.15vh;
-    margin-top: 0.9vh;
+    padding-top: 2px;
+    padding-bottom:2px;
+    padding-left: 0px;
+    padding-right: 0px;
     cursor: pointer;
-    align-items: center;
-    font-size: 2.8vh;
+    font-size: 2.5vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ 
   }
 
-  .l{
-    width: 175px;
-    border-radius:50px 0px 0px 50px;
-    justify-content: right;
-  }
-  .r{
-    width: 175px;
-    border-radius:0px 50px 50px 0px;
+  .left{
+   
     justify-content: left;
+    border-left:7px solid;
+    padding-left: 20px;
+    text-align: left; /* Aligns text to the left */
+    align-items: left; /* Centers content vertically */
+
+  }
+  .right{
+
+    justify-content: right;
+    border-right: 7px solid;
+    padding-right: 20px;
+    text-align: right; /* Aligns text to the left */
+    align-items: right; /* Centers content vertically */
   }
   .active {
     width: 100%;
-    border : 0px solid;
+    height: 36vh;
+
     background-color:  rgb(61, 242, 203);
-    font-size: 2.8vh;
+    font-size: 2.5vh;
     -webkit-transform:scale(1,1); /* Safari and Chrome */
     -moz-transform:scale(1,1); /* Firefox */
     -ms-transform:scale(1,1); /* IE 9 */
     -o-transform:scale(1,1); /* Opera */
     transform:scale(1,1); /* W3C */
     transition: color 10s;
-    padding-bottom: 2vh;
-    padding-top: 1.5vh;
+    /* padding-bottom: 2vh;
+    padding-top: 1.5vh; */
+
+
+
   }
 
   .nonactive {
  
     /* color: rgb(255, 255, 255); */
-
+    width: 100%;
     -webkit-transform:scale(1,1); /* Safari and Chrome */
     -moz-transform:scale(1,1); /* Firefox */
     -ms-transform:scale(1,1); /* IE 9 */
     -o-transform:scale(1,1); /* Opera */
     transform:scale(1,1); /* W3C */
+  }
+
+  .thumb {
+    width: 44vw;
+    height: 44vw;
+ 
   }
 
   .hide {
@@ -192,21 +234,21 @@ body {
 
   .ask-button {
     position: absolute; 
-    width: 18vh;
-    height: 18vh;
-    border-radius:100px;
-    right: 20px;
-    bottom: 20px;
+    height: 5vh;
+    /* border-radius:100px; */
+    right: 0px;
+    left:0px;
+    bottom: 0px;
     border: 0px solid;
     color: white;
-    padding: 15px; 
+    padding: 5px; 
     /* padding-left: 15px;
     margin: 7px; */ 
     cursor: pointer;
     align-items: center;
     font-size: 3.3vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: background-color 10s;
+    /* transition: background-color 10s; */
   }
   .review-button {
     position: absolute; 
@@ -231,7 +273,7 @@ body {
     position: absolute;
     left: 50%;
     width: 3%;
-    bottom: 150%;
+    top: 6px;
     display: flex;
     justify-content: center;
     align-items: center;

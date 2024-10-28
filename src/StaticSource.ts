@@ -73,30 +73,74 @@ public async getDescription(world: string): Promise<[string[], string[]]> {
   return [firstRow, secondRow];
 }
 
-public async getWordData(world: string): Promise<{ description: string, references: { author: string, year: number, title: string, journal?: string, volume?: number, issue?: number, pages?: string, publisher?: string }[], imageLinks: string[] }> {
-  console.log(world);
+public async getWordData(world: string): Promise<{ description: string, literature: string[], imageLinks: string[] }> {
   const path = `${world}.json`; // Change the file extension to .json
   const base = window.location.origin + import.meta.env.BASE_URL;
   const url = new URL("./data/" + path, base).href;
 
   const response = await fetch(url);
   if (!response.ok) throw new Error("Fetch error");
-  console.log("LOL");
   const data = await response.json(); // Parse the JSON response
 
   // Ensure the JSON data has the required structure
-  if (!data.description || !data.references || !data.imageLinks) {
+  if (!data.description || !data.literature || !data.imageLinks) {
     throw new Error("Unexpected JSON format: Missing required properties");
   }
-  console.log(data);
   // Return the relevant data
   return {
     description: data.description,
-    references: data.references,
+    literature: data.literature,
     imageLinks: data.imageLinks
   };
 }
+public async getLiteratureFromWords(word1: string, word2: string): Promise<string[]> {
+  // Helper function to fetch and extract literature from a single JSON file
+  const fetchLiterature = async (word: string): Promise<string[]> => {
+    const path = `${word}.json`;
+    const base = window.location.origin + import.meta.env.BASE_URL;
+    const url = new URL("./data/" + path, base).href;
+    console.log(url)
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Fetch error for ${word}`);
+
+    const data = await response.json();
+
+    // Ensure JSON has the required structure
+    if (!data.literature) throw new Error(`Unexpected JSON format for ${word}: Missing literature property`);
+
+    return data.literature;
+  };
+
+  // Fetch literature for each word and combine them
+  const [literature1, literature2] = await Promise.all([
+    fetchLiterature(word1),
+    fetchLiterature(word2)
+  ]);
+
+  // Merge both literature arrays
+  const combined = [...literature1, ...literature2];
+
+  // Remove duplicates and push any duplicates to the start
+  const uniqueSet = new Set<string>();
+  const duplicates: string[] = [];
+
+  for (const book of combined) {
+    if (uniqueSet.has(book)) {
+      // If it's a duplicate, push to duplicates array
+      if (!duplicates.includes(book)) {
+        duplicates.push(book);
+      }
+    } else {
+      uniqueSet.add(book);
+    }
+  }
+
+  // Combine duplicates at the beginning with the rest of the unique books
+  return [...duplicates, ...Array.from(uniqueSet).filter(book => !duplicates.includes(book))];
 }
+}
+
+
 
 // export function parseInfo(filename: string): PatchInfo | null {
 //   const regex = new RegExp("^(.*?)_(.*?)_(.*?)@(.*?)_(.*?)_(.*?)\\..+$");
