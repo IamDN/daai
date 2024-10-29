@@ -1,12 +1,8 @@
-import { useState } from 'react';
+
 import OpenAI from "openai";
 
 const openai = new OpenAI({ apiKey: import.meta.env.VITE_API_KEY, dangerouslyAllowBrowser: true });
-// const [, setLocation] = useState({ latitude: 0, longitude: 0 });
-// const [, setAdress] = useState('');
-var lastAdress = '';
-var lastContent = "";
-var lastlastContent = "";
+
 
 const questionBase = 'Give me one recommandation based on the book:';
 
@@ -48,10 +44,10 @@ export async function getAIAnswer(verb: string, noun: string, books:string[]) {
       return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(
           async position => {
-            console.log(position.coords.latitude, position.coords.longitude);
+
             try {
               const address = await displayLocation(position.coords.latitude, position.coords.longitude);
-              console.log("Address2:", address);
+
               resolve( `${address}` );
             } catch (error) {
               console.error("Error getting address:", error);
@@ -97,7 +93,6 @@ export async function getAIAnswer(verb: string, noun: string, books:string[]) {
     const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
  if(first)
  {
-  lastContent = descriptionPanel.innerHTML;
   descriptionPanel.innerHTML = "";
   const headerDiv = document.createElement("h3");
   headerDiv.className = "div-title";
@@ -123,38 +118,8 @@ export async function getAIAnswer(verb: string, noun: string, books:string[]) {
     descriptionPanel.appendChild(bookReferenceDiv);
   };
 
-  const getHeader = (verb: string, noun: string, location : string) => {
-    return (
-      ` <div class = "desc-header"> 
-          <button class = "desc-button" id="verb-desc-button" >
-             <u> ${verb}</u>
-          </button>  
-          <button class = "desc-button" id="noun-desc-button">
-             <u> ${noun}</u>
-          </button> 
-          ${location}
-       </div>`
-    );
-  }
 
-  const updateListenersAI = () => {
 
-    // Attach event listeners after content is injected
-    const bookButtons = document.getElementsByClassName("book-button");
-    console.log("Update Listeners AI " + bookButtons.length);
-    for (let i = 0; i < bookButtons.length; i++) {
-      console.log(bookButtons[i].id);
-      bookButtons[i].addEventListener("click", () => {
-        const text = bookButtons[i].id;
-        const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement;
-        descriptionPanel.classList.remove("hide");
-        const backButton = document.querySelector(".back-button") as HTMLButtonElement;
-        backButton.innerHTML = "Back";
-        descriptionPanel.innerHTML = '<br> <br> Loading AI answer for '
-        + bookButtons[i].id + ', it might take a couple of' +
-        ' seconds, please stand by...';
-             getAIAnswer(text, "", []);
-       });
-    }
-  }
+ 
+  
 

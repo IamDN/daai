@@ -1,7 +1,4 @@
-// import { DataSource } from "../DataSource";
-// import { AreaBounds } from "../DataUtils";
-// import { parseGrid } from "../../Workers";
-// import { Patch, PatchConstants, PatchInfo, PatchLevel } from "../Patch";
+
 export interface WordCombos {
   name: string;
  snippets: string;
@@ -17,14 +14,7 @@ export class StaticSource {
     this.patchPaths.push(`designaction.csv`);
   }
 
-//   public async getAvailablePatches(): Promise<PatchInfo[]> {
-//     return this.patchPaths.map(path => {
-//       const filename = path.substring(path.lastIndexOf('/') + 1);
-//       const info = parseInfo(filename);
-//       if (info) return info;
-//       throw Error("Invalid filename format");
-//     })
-//   }
+
 public async getData(): Promise<[WordCombos[], WordCombos[]]> {
   const path = `designaction.csv`;
   const base = window.location.origin + import.meta.env.BASE_URL;
@@ -175,25 +165,3 @@ public async getLiteratureFromWords(word1: string, word2: string): Promise<strin
 }
 
 
-
-// export function parseInfo(filename: string): PatchInfo | null {
-//   const regex = new RegExp("^(.*?)_(.*?)_(.*?)@(.*?)_(.*?)_(.*?)\\..+$");
-//   const values = regex.exec(filename);
-
-//   if (!values) return null;
-
-//   const name = values[1];
-//   const level = PatchLevel[values[2] as keyof typeof PatchLevel];
-//   const site = values[3];
-//   const patch = parseInt(values[4]);
-//   const date = new Date(); // TODO
-
-//   return {
-//     level,
-//     name,
-//     site,
-//     index: patch,
-//     filename,
-//     date,
-//   }
-// }
