@@ -41,7 +41,7 @@ export async function getAIAnswer(verb: string, noun: string, books:string[]) {
 
   async function getLocation() : Promise< string > {
     if (navigator.geolocation) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         navigator.geolocation.getCurrentPosition(
           async position => {
 
@@ -51,12 +51,12 @@ export async function getAIAnswer(verb: string, noun: string, books:string[]) {
               resolve( `${address}` );
             } catch (error) {
               console.error("Error getting address:", error);
-              reject(error);
+             return "Singapore"
             }
           },
           error => {
             console.error("Error getting location:", error);
-            reject(error);
+            return "Singapore"
           }
         );
       });
