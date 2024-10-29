@@ -51,12 +51,13 @@ export async function getAIAnswer(verb: string, noun: string, books:string[]) {
               resolve( `${address}` );
             } catch (error) {
               console.error("Error getting address:", error);
-             return "Singapore"
+              resolve( `${"Singapore"}` );
+            
             }
           },
           error => {
             console.error("Error getting location:", error);
-            return "Singapore"
+            resolve( `${"Singapore"}` );
           }
         );
       });

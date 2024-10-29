@@ -157,10 +157,9 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
     backButton.classList.remove("hide");
     const type = here === 0 ? " here and now advice" : "  literature review";
     descriptionPanel.innerHTML = '<br> <br> Loading AI answer for '
-    + lastVerb + ' ' + lastNoun + type+ ', it might take a couple of' +
+    + lastVerb.name + ' ' + lastNoun.name + type+ ', it might take a couple of' +
     ' seconds, please stand by...';
     descriptionPanel.style.backgroundColor = boxColors[0];
-    console.log(lastVerb, lastNoun);
     source.getLiteratureFromWords(lastVerb.name, lastNoun.name).then((lit : string[]) => {
   
       getAIAnswer(lastVerb.name, lastNoun.name, lit);
