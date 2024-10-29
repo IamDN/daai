@@ -3,14 +3,14 @@ const geoLocationUrl = 'https://www.googleapis.com/geolocation/v1/geolocate';
 const geoCodeUrl = 'https://maps.googleapis.com/maps/api/geocode/json';
 const key = import.meta.env.VITE_GOOGLE_KEY;
 async function getLocationFromNavigator(): Promise<{long:number,lat:number}> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         navigator.geolocation.getCurrentPosition(
             position => {
                 const lat =  position.coords.latitude;
                 const long = position.coords.longitude;
                 resolve( {long,lat}); 
             },
-            async error => {
+            async () => {
                 // If there's an error, call getLocationFromGoogle
                 const googleLocation = await getLocationFromGoogle();
                 resolve(googleLocation); // Resolve with the result from Google
