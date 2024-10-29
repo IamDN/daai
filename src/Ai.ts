@@ -11,7 +11,8 @@ var lastlastContent = "";
 const questionBase = 'Give me one recommandation based on the book:';
 
 const ruleString ='##Rules:'
-      +'- give me some specific locations or institutions'
+      +'- give me some specific locations (lifewords scenarios, ideas, concepts, projects)'
+      +'- give me some specific institutions and subjects (coalitions , stakeholders, data, limits, aspirations, needs)'
       +'- follow recomandation from the literature, by example'
       +'- be natural, use "go to", "make sure", "just do"'
       +'- make sure this examples can help me in better urban planning'

@@ -1,11 +1,12 @@
 
 import Gui from './Gui';
 import './App.css';
-import {StaticSource} from './StaticSource';  // Adjust the import as needed
-import React, { useState, useEffect } from 'react';
+import {StaticSource,WordCombos} from './StaticSource';  // Adjust the import as needed
+import  { useState, useEffect } from 'react';
+
 
 function App() {
-  const [data, setData] = useState<[string[], string[]] | null>(null);
+  const [data, setData] = useState<[WordCombos[], WordCombos[]] | null>(null);
 
   // Preload data from StaticSource
   useEffect(() => {

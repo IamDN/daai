@@ -1,16 +1,16 @@
 {
     "title": "Projects",
-    "snippet": "Exploring the concept of projects and its impact on urban spaces.",
-    "description": "The notion of 'projects' in urban planning is pivotal to understanding various dimensions of urban life and development. 'Projects' addresses critical aspects such as perception, utility, and the social and physical dynamics that shape urban spaces. By examining projects, urban planners and researchers can create more inclusive, adaptive, and responsive environments. The concept extends to understanding the needs, limits, and potentials within urban contexts to enhance the lived experiences and interactions of individuals.",
+    "snippet": "Executing urban initiatives for impactful change",
+    "description": "Projects in urban planning are specific initiatives designed to bring about planned changes. Successful projects achieve clear objectives while promoting long-term urban improvement.",
     "imageLinks": [
-        "https://picsum.photos/300/200?random=1&topic=Projects",
-        "https://picsum.photos/300/200?random=2&topic=Projects",
-        "https://picsum.photos/300/200?random=3&topic=Projects"
+      "https://picsum.photos/300/200?random=61",
+      "https://picsum.photos/300/200?random=62",
+      "https://picsum.photos/300/200?random=63"
     ],
     "literature": [
-        "The Death and Life of Great American Cities by Jane Jacobs",
-        "The City in History by Lewis Mumford",
-        "Urban Space and Structures by Leslie Martin",
-        "Good City Form by Kevin Lynch"
+      "Urban Projects Manual by Stuart Glaister",
+      "The Project of Autonomy by Pier Vittorio Aureli",
+      "Case Studies in Urban Planning by Donald Miller"
     ]
-}
+  }
+  

@@ -1,16 +1,16 @@
 {
     "title": "Generate",
-    "snippet": "Exploring the concept of generate and its impact on urban spaces.",
-    "description": "The notion of 'generate' in urban planning is pivotal to understanding various dimensions of urban life and development. 'Generate' addresses critical aspects such as perception, utility, and the social and physical dynamics that shape urban spaces. By examining generate, urban planners and researchers can create more inclusive, adaptive, and responsive environments. The concept extends to understanding the needs, limits, and potentials within urban contexts to enhance the lived experiences and interactions of individuals.",
+    "snippet": "Creating ideas and prototypes for urban development",
+    "description": "In urban planning, generation refers to the creation of ideas, prototypes, and models that bring transformative possibilities to life. It’s a process of innovation aimed at shaping responsive urban environments.",
     "imageLinks": [
-        "https://picsum.photos/300/200?random=1&topic=Generate",
-        "https://picsum.photos/300/200?random=2&topic=Generate",
-        "https://picsum.photos/300/200?random=3&topic=Generate"
+      "https://picsum.photos/300/200?random=7",
+      "https://picsum.photos/300/200?random=8",
+      "https://picsum.photos/300/200?random=9"
     ],
     "literature": [
-        "The Death and Life of Great American Cities by Jane Jacobs",
-        "The City in History by Lewis Mumford",
-        "Urban Space and Structures by Leslie Martin",
-        "Good City Form by Kevin Lynch"
+      "Smart Cities by Anthony M. Townsend",
+      "The City of Tomorrow by Peter Hall",
+      "The Just City Essays by various authors"
     ]
-}
+  }
+  

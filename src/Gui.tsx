@@ -5,8 +5,8 @@ import React from 'react';
 import images from './imageLoader';
 import { getAIAnswer } from './Ai';
 import './Gui.css';
-import { StaticSource } from './StaticSource.ts';
-import { Console } from 'console';
+import { StaticSource,WordCombos } from './StaticSource.ts';
+
 // src/webpack.d.ts
 const source = new StaticSource();
 
@@ -15,6 +15,7 @@ interface WordData {
   literature: string[];
   imageLinks: string[];
 }
+
 
 const colors = [
   '#1B65A6', 
@@ -25,21 +26,18 @@ const colors = [
 ];
 
 
-var lastVerb ="" ;
-var lastNoun="";
-var lastAdress = '';
 var lastContent = "";
 
 
-const Gui = ({ preloadedData }: { preloadedData: [string[], string[]] }) => {
+const Gui = ({ preloadedData }: { preloadedData: [WordCombos[], WordCombos[]] }) => {
   const [firstRow, secondRow] = preloadedData;
   // lastVerb = firstRow[firstRow.length -1];
   // lastNoun =secondRow[secondRow.length -1];
   const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)];
   const verbButtonRefs = useRef<HTMLButtonElement[]>([]);
   const nounButtonRefs = useRef<HTMLButtonElement[]>([]);
-  const [verbs, setVerbs] = useState<string[]>(firstRow);
-  const [nouns, setNouns] = useState<string[]>(secondRow);
+  const [verbs, setVerbs] = useState<WordCombos[]>(firstRow);
+  const [nouns, setNouns] = useState<WordCombos[]>(secondRow);
   const [lastVerb, setLastVerb] = useState(firstRow[firstRow.length - 1]);
 const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
   const [isLocked, setIsLocked] = useState(true);
@@ -49,10 +47,13 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
   const [, setTouchEnd] = useState(0);
 
 
-  const onWordClicked = function (word: string)  {
+  const onWordClicked = function (word: WordCombos, isVerb:boolean)  {
 
-    source.getWordData(word).then((data : WordData) => {
-  
+    source.getWordData(word.name).then((data : WordData) => {
+      const lock = document.querySelector(".lock-button") as HTMLButtonElement;
+    lock.classList.add("hide");
+    const lockicon = document.querySelector(".lock-icon") as HTMLButtonElement;
+    lockicon.classList.add("hide");
       const descriptionPanel = document.querySelector(".description-panel") as HTMLDivElement; ;
       descriptionPanel.classList.remove("hide");
       const closeButton= document.querySelector(".back-button") as HTMLDivElement; 
@@ -60,6 +61,8 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
       closeButton.addEventListener("click", () => {
         descriptionPanel.classList.add("hide");
         closeButton.classList.add("hide");
+        lock.classList.remove("hide");
+        lockicon.classList.remove("hide");
       })
       lastContent = descriptionPanel.innerHTML;
 
@@ -68,7 +71,7 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
       
       // Add the title as a heading
       const titleElement = document.createElement("h2");
-      titleElement.textContent = word;
+      titleElement.textContent = word.name;
       descriptionPanel.appendChild(titleElement);
       
       // Add the description as a paragraph
@@ -91,9 +94,12 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
           literatureList.appendChild(literatureItem);
       });
       descriptionPanel.appendChild(literatureList);
-          descriptionPanel.style.backgroundColor = "white";
-          descriptionPanel.style.color = "black";
-          closeButton.innerHTML = "Back";
+
+          const oriIdx = isVerb ? firstRow.indexOf(word) : secondRow.indexOf(word);
+          const colorIndex = oriIdx !== -1 ? Math.floor(oriIdx / 3) : 0;
+          descriptionPanel.style.backgroundColor = colors[colorIndex];
+          descriptionPanel.style.color = "white";
+        //  closeButton.innerHTML = "Back";
     
     })
     .catch(error => {
@@ -103,15 +109,15 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
 
 
 
-  const updateListeners = (verb: string, noun: string) => {
+  const updateListeners = (verb: WordCombos, noun: WordCombos) => {
     // Attach event listeners after content is injected
     const verbButton = document.getElementById("verb-desc-button");
     const nounButton = document.getElementById("noun-desc-button");
     if (verbButton) {
-      verbButton.addEventListener("click",() => onWordClicked (verb));
+      verbButton.addEventListener("click",() => onWordClicked (verb, true));
     }
     if (nounButton) {
-      nounButton.addEventListener("click", () => onWordClicked(noun) );
+      nounButton.addEventListener("click", () => onWordClicked(noun, false) );
     }
   }
 
@@ -131,7 +137,7 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
       descriptionPanel.style.backgroundColor = boxColors[0];
       descriptionPanel.style.color = "white";
       descriptionPanel.innerHTML = lastContent;
-      backButton.innerHTML = "Close";
+      //backButton.innerHTML = "Close";
       lastContent="";
       updateListeners(lastVerb, lastNoun);
     }
@@ -155,9 +161,9 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
     ' seconds, please stand by...';
     descriptionPanel.style.backgroundColor = boxColors[0];
     console.log(lastVerb, lastNoun);
-    source.getLiteratureFromWords(lastVerb, lastNoun).then((lit : string[]) => {
+    source.getLiteratureFromWords(lastVerb.name, lastNoun.name).then((lit : string[]) => {
   
-      getAIAnswer(lastVerb, lastNoun, lit);
+      getAIAnswer(lastVerb.name, lastNoun.name, lit);
     
     })
     .catch(error => {
@@ -168,39 +174,41 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
   
   }, [lastVerb, lastNoun]);
 
-  const addButton = (word: string, isVerb: boolean, test:number) => {
+  const addButton = (word: WordCombos, isVerb: boolean, test:number) => {
+
     var list = isVerb ? verbs : nouns;
     let isLast = list.indexOf(word) === verbs.length -1;
     let i = list.indexOf(word);
-    const [firstRow, secondRow] = preloadedData;
+     const [firstRow, secondRow] = preloadedData;
 
     const oriIdx = isVerb ? firstRow.indexOf(word) : secondRow.indexOf(word);
     const side = isVerb ? ' left' : ' right';
     const active = isLast ? ' active' : ' nonactive';
-    const color = ' color' + (Math.floor((oriIdx)/4)+1);
-    const name =  'layer-button' + side + active + color;
+    const hide = list.indexOf(word)  < verbs.length -3? ' hide' : ''; //remove this to see full list (+ some height adjustme in css)
+   
+    const name =  'layer-button' + side + active +  hide;
     const colorIndex = oriIdx !== -1 ? Math.floor(oriIdx / 3) : 0;
     return (
       <button
           className={name}
-          key={word}
+          key={word.name}
           ref={el => verbButtonRefs.current[i] = el as HTMLButtonElement}
           id = {word + "-button"}
-          onClick={() => onWordClicked (word)}
+          onClick={() => onWordClicked (word, isVerb)}
           value = {test}
           style={{
-            backgroundColor: isLast ? colors[colorIndex ] : 'transparent', 
-            //backgroundColor: colors[colorIndex], 
-            borderColor: colors[colorIndex]
+            //backgroundColor: isLast ? colors[colorIndex ] : 'transparent', 
+            backgroundColor: colors[colorIndex], 
+            //borderColor: colors[colorIndex]
           }}
         >
-        {word.toLowerCase() } 
+        {word.name.toLowerCase() } 
         <img 
           src={images[isVerb ? oriIdx : (oriIdx + 15)]}
           className={isLast ? 'thumb' : 'thumb hide'}
         />
         <div className={isLast ? 'snippet' : 'snippet hide'}>
-          {"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "}
+          {word.snippets}
         </div>
       </button>
     );
@@ -243,11 +251,11 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
     const newNouns = [...nouns];
   
     if (deltaY < 0) {
-      if (isLeft || isLocked) newVerbs.unshift(newVerbs.pop() as string);
-      if (!isLeft || isLocked) newNouns.unshift(newNouns.pop() as string);
+      if (isLeft || isLocked) newVerbs.unshift(newVerbs.pop() as WordCombos);
+      if (!isLeft || isLocked) newNouns.unshift(newNouns.pop() as WordCombos);
     } else if (deltaY > 0) {
-      if (isLeft || isLocked) newVerbs.push(newVerbs.shift() as string);
-      if (!isLeft || isLocked) newNouns.push(newNouns.shift() as string);
+      if (isLeft || isLocked) newVerbs.push(newVerbs.shift() as WordCombos);
+      if (!isLeft || isLocked) newNouns.push(newNouns.shift() as WordCombos);
     }
   
     // Update state with new arrays
@@ -310,7 +318,7 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
     return (
       <div>
         <button className={"ask-button"} 
-          style={{ backgroundColor: color  }} 
+          style={{ color: color  }} 
           onClick={() => onAIClicked(0)}>
           {"Here Now"}
         </button>
@@ -346,8 +354,8 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
         </div>
         <div className="footer"> {addAICountrol()} </div>
         <div className="description-panel hide" > </div>
-        <button className="back-button hide" id = "back-button" onClick = {
-          () => onBackClick()}>{"Close"}
+        <button className="back-button hide" id="back-button" onClick={() => onBackClick()}>
+           <i className="fas fa-times"></i>
         </button>
         <div> {addLock()} </div>
       </div>

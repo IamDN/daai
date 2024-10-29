@@ -1,16 +1,16 @@
 {
     "title": "Aspirations",
-    "snippet": "Exploring the concept of aspirations and its impact on urban spaces.",
-    "description": "The notion of 'aspirations' in urban planning is pivotal to understanding various dimensions of urban life and development. 'Aspirations' addresses critical aspects such as perception, utility, and the social and physical dynamics that shape urban spaces. By examining aspirations, urban planners and researchers can create more inclusive, adaptive, and responsive environments. The concept extends to understanding the needs, limits, and potentials within urban contexts to enhance the lived experiences and interactions of individuals.",
+    "snippet": "Realizing community dreams through urban design",
+    "description": "In urban planning, aspirations reflect the hopes and dreams of a community. This involves designing spaces that accommodate future ambitions and inspire positive change.",
     "imageLinks": [
-        "https://picsum.photos/300/200?random=1&topic=Aspirations",
-        "https://picsum.photos/300/200?random=2&topic=Aspirations",
-        "https://picsum.photos/300/200?random=3&topic=Aspirations"
+      "https://picsum.photos/300/200?random=37",
+      "https://picsum.photos/300/200?random=38",
+      "https://picsum.photos/300/200?random=39"
     ],
     "literature": [
-        "The Death and Life of Great American Cities by Jane Jacobs",
-        "The City in History by Lewis Mumford",
-        "Urban Space and Structures by Leslie Martin",
-        "Good City Form by Kevin Lynch"
+      "Happy City by Charles Montgomery",
+      "Building and Dwelling: Ethics for the City by Richard Sennett",
+      "The Ideal City by Helen Rosenau"
     ]
-}
+  }
+  

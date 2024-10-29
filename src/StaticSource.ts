@@ -2,10 +2,15 @@
 // import { AreaBounds } from "../DataUtils";
 // import { parseGrid } from "../../Workers";
 // import { Patch, PatchConstants, PatchInfo, PatchLevel } from "../Patch";
+export interface WordCombos {
+  name: string;
+ snippets: string;
 
+}
 //export class StaticSource implements DataSource {
 export class StaticSource {
   private patchPaths: string[]
+
 
   constructor() {
     this.patchPaths = [];
@@ -20,7 +25,7 @@ export class StaticSource {
 //       throw Error("Invalid filename format");
 //     })
 //   }
-public async getData(): Promise<[string[], string[]]> {
+public async getData(): Promise<[WordCombos[], WordCombos[]]> {
   const path = `designaction.csv`;
   const base = window.location.origin + import.meta.env.BASE_URL;
   const url = new URL("./data/" + path, base).href;
@@ -42,10 +47,39 @@ public async getData(): Promise<[string[], string[]]> {
   // Split each row by commas and trim any extra spaces
   const firstRow = rows[0].split(',').map(item => item.trim());
   const secondRow = rows[1].split(',').map(item => item.trim());
-  
+  var firstcombos: WordCombos[] = [];
+  var secondcombos: WordCombos[] = [];
+
+  for (let i = 0; i < firstRow.length; i++) {
+    var snippet = await this.getSnipped(firstRow[i]);
+    firstcombos.push({ name: firstRow[i], snippets: snippet});
+  }
+  for (let i = 0; i < secondRow.length; i++) {
+    var snippet = await this.getSnipped(secondRow[i]);
+    secondcombos.push({ name: secondRow[i], snippets: snippet });
+  }
+
   // Return both rows as arrays
-  return [firstRow, secondRow];
+  return [firstcombos,  secondcombos];
 }
+public async getSnipped(world: string): Promise<string> {
+  const path = `${world}.json`; // Change the file extension to .json
+  const base = window.location.origin + import.meta.env.BASE_URL;
+  const url = new URL("./data/" + path, base).href;
+
+  const response = await fetch(url);
+  if (!response.ok) throw new Error("Fetch error");
+  const data = await response.json(); // Parse the JSON response
+
+  // Ensure the JSON data has the required structure
+  if (!data.snippet ) {
+    throw new Error("Unexpected JSON format: Missing required properties");
+  }
+  // Return the relevant data
+  return data.snippet;
+}
+
+
 public async getDescription(world: string): Promise<[string[], string[]]> {
   const path = `${world}.csv`;
   const base = window.location.origin + import.meta.env.BASE_URL;

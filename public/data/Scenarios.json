@@ -1,16 +1,16 @@
 {
     "title": "Scenarios",
-    "snippet": "Exploring the concept of scenarios and its impact on urban spaces.",
-    "description": "The notion of 'scenarios' in urban planning is pivotal to understanding various dimensions of urban life and development. 'Scenarios' addresses critical aspects such as perception, utility, and the social and physical dynamics that shape urban spaces. By examining scenarios, urban planners and researchers can create more inclusive, adaptive, and responsive environments. The concept extends to understanding the needs, limits, and potentials within urban contexts to enhance the lived experiences and interactions of individuals.",
+    "snippet": "Imagining multiple futures for urban resilience",
+    "description": "Scenarios in urban planning involve creating diverse future possibilities to test strategies. This helps planners understand potential impacts and develop adaptable solutions.",
     "imageLinks": [
-        "https://picsum.photos/300/200?random=1&topic=Scenarios",
-        "https://picsum.photos/300/200?random=2&topic=Scenarios",
-        "https://picsum.photos/300/200?random=3&topic=Scenarios"
+      "https://picsum.photos/300/200?random=49",
+      "https://picsum.photos/300/200?random=50",
+      "https://picsum.photos/300/200?random=51"
     ],
     "literature": [
-        "The Death and Life of Great American Cities by Jane Jacobs",
-        "The City in History by Lewis Mumford",
-        "Urban Space and Structures by Leslie Martin",
-        "Good City Form by Kevin Lynch"
+      "Planning for Complexity by Gert de Roo",
+      "The Future of the City by Kheir Al-Kodmany",
+      "Scenario Planning in Urban Development by Robert Goodspeed"
     ]
-}
+  }
+  

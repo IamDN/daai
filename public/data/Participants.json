@@ -1,16 +1,16 @@
 {
     "title": "Participants",
-    "snippet": "Exploring the concept of participants and its impact on urban spaces.",
-    "description": "The notion of 'participants' in urban planning is pivotal to understanding various dimensions of urban life and development. 'Participants' addresses critical aspects such as perception, utility, and the social and physical dynamics that shape urban spaces. By examining participants, urban planners and researchers can create more inclusive, adaptive, and responsive environments. The concept extends to understanding the needs, limits, and potentials within urban contexts to enhance the lived experiences and interactions of individuals.",
+    "snippet": "Engaging all stakeholders in urban development",
+    "description": "Participants in urban planning include all stakeholders, from residents to policy-makers. Collaboration among participants ensures that projects reflect the needs of the entire community.",
     "imageLinks": [
-        "https://picsum.photos/300/200?random=1&topic=Participants",
-        "https://picsum.photos/300/200?random=2&topic=Participants",
-        "https://picsum.photos/300/200?random=3&topic=Participants"
+      "https://picsum.photos/300/200?random=67",
+      "https://picsum.photos/300/200?random=68",
+      "https://picsum.photos/300/200?random=69"
     ],
     "literature": [
-        "The Death and Life of Great American Cities by Jane Jacobs",
-        "The City in History by Lewis Mumford",
-        "Urban Space and Structures by Leslie Martin",
-        "Good City Form by Kevin Lynch"
+      "The Participatory City by Hamdi and Goethert",
+      "Community Participation Methods in Design and Planning by Henry Sanoff",
+      "The City Reader by Richard T. LeGates and Frederic Stout"
     ]
-}
+  }
+  

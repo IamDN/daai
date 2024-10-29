@@ -1,14 +1,16 @@
 {
     "title": "Recognise",
-    "snippet": "Uncovering the hidden patterns and influences that shape societal structures.",
-    "description": "Recognition involves identifying key social, environmental, and economic dynamics within communities, focusing on understanding underlying influences that affect urban life. By learning to 'see' the deeper structures at play, planners and designers can develop more insightful approaches to urban development.",
+    "snippet": "Acknowledging key patterns and relationships in urban spaces",
+    "description": "Recognising in urban planning involves identifying recurring patterns and relationships that define a space. This skill allows planners to see beyond the visible, discovering underlying trends and social behaviors that shape urban life.",
     "imageLinks": [
-        "https://picsum.photos/300/200?random=101",
-        "https://picsum.photos/300/200?random=102"
+      "https://picsum.photos/300/200?random=1",
+      "https://picsum.photos/300/200?random=2",
+      "https://picsum.photos/300/200?random=3"
     ],
     "literature": [
-        "Seeing Like a State by James C. Scott",
-        "The Urban Revolution by Henri Lefebvre",
-        "The Art of Seeing by Aldous Huxley"
+      "Collage City by Colin Rowe and Fred Koetter",
+      "Seeing Like a State by James C. Scott",
+      "The Social Logic of Space by Bill Hillier and Julienne Hanson"
     ]
-}
+  }
+  

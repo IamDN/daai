@@ -1,16 +1,16 @@
 {
     "title": "Stakeholders",
-    "snippet": "Exploring the concept of stakeholders and its impact on urban spaces.",
-    "description": "The notion of 'stakeholders' in urban planning is pivotal to understanding various dimensions of urban life and development. 'Stakeholders' addresses critical aspects such as perception, utility, and the social and physical dynamics that shape urban spaces. By examining stakeholders, urban planners and researchers can create more inclusive, adaptive, and responsive environments. The concept extends to understanding the needs, limits, and potentials within urban contexts to enhance the lived experiences and interactions of individuals.",
+    "snippet": "Identifying and including key urban influencers",
+    "description": "Stakeholders in urban planning are individuals or groups with a vested interest in urban projects. Addressing their needs and concerns promotes a balanced and inclusive development process.",
     "imageLinks": [
-        "https://picsum.photos/300/200?random=1&topic=Stakeholders",
-        "https://picsum.photos/300/200?random=2&topic=Stakeholders",
-        "https://picsum.photos/300/200?random=3&topic=Stakeholders"
+      "https://picsum.photos/300/200?random=70",
+      "https://picsum.photos/300/200?random=71",
+      "https://picsum.photos/300/200?random=72"
     ],
     "literature": [
-        "The Death and Life of Great American Cities by Jane Jacobs",
-        "The City in History by Lewis Mumford",
-        "Urban Space and Structures by Leslie Martin",
-        "Good City Form by Kevin Lynch"
+      "Stakeholder Engagement by Amy B. Voegtle",
+      "The Social Life of Small Urban Spaces by William H. Whyte",
+      "Collaborative Planning by Patsy Healey"
     ]
-}
+  }
+  

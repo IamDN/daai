@@ -1,16 +1,16 @@
 {
     "title": "Inform",
-    "snippet": "Exploring the concept of inform and its impact on urban spaces.",
-    "description": "The notion of 'inform' in urban planning is pivotal to understanding various dimensions of urban life and development. 'Inform' addresses critical aspects such as perception, utility, and the social and physical dynamics that shape urban spaces. By examining inform, urban planners and researchers can create more inclusive, adaptive, and responsive environments. The concept extends to understanding the needs, limits, and potentials within urban contexts to enhance the lived experiences and interactions of individuals.",
+    "snippet": "Providing data-driven insights for better urban decision-making",
+    "description": "Informing in urban planning involves supplying accurate data and research to guide policy and design decisions. This data-driven approach ensures that urban solutions are rooted in real-world insights.",
     "imageLinks": [
-        "https://picsum.photos/300/200?random=1&topic=Inform",
-        "https://picsum.photos/300/200?random=2&topic=Inform",
-        "https://picsum.photos/300/200?random=3&topic=Inform"
+      "https://picsum.photos/300/200?random=25",
+      "https://picsum.photos/300/200?random=26",
+      "https://picsum.photos/300/200?random=27"
     ],
     "literature": [
-        "The Death and Life of Great American Cities by Jane Jacobs",
-        "The City in History by Lewis Mumford",
-        "Urban Space and Structures by Leslie Martin",
-        "Good City Form by Kevin Lynch"
+      "Data-Driven Design and Construction by Randy Deutsch",
+      "Seeing Like a State by James C. Scott",
+      "Geographic Thought: A Critical Introduction by George Henderson"
     ]
-}
+  }
+  

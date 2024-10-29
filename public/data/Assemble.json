@@ -1,16 +1,16 @@
 {
     "title": "Assemble",
-    "snippet": "Exploring the concept of assemble and its impact on urban spaces.",
-    "description": "The notion of 'assemble' in urban planning is pivotal to understanding various dimensions of urban life and development. 'Assemble' addresses critical aspects such as perception, utility, and the social and physical dynamics that shape urban spaces. By examining assemble, urban planners and researchers can create more inclusive, adaptive, and responsive environments. The concept extends to understanding the needs, limits, and potentials within urban contexts to enhance the lived experiences and interactions of individuals.",
+    "snippet": "Bringing urban elements together to form cohesive spaces",
+    "description": "Assembly in urban planning is about creating harmony by bringing diverse urban elements together. This process ensures all parts of the city work cohesively to serve the needs of its inhabitants.",
     "imageLinks": [
-        "https://picsum.photos/300/200?random=1&topic=Assemble",
-        "https://picsum.photos/300/200?random=2&topic=Assemble",
-        "https://picsum.photos/300/200?random=3&topic=Assemble"
+      "https://picsum.photos/300/200?random=16",
+      "https://picsum.photos/300/200?random=17",
+      "https://picsum.photos/300/200?random=18"
     ],
     "literature": [
-        "The Death and Life of Great American Cities by Jane Jacobs",
-        "The City in History by Lewis Mumford",
-        "Urban Space and Structures by Leslie Martin",
-        "Good City Form by Kevin Lynch"
+      "The Architecture of Community by Leon Krier",
+      "Community and Privacy by Serge Chermayeff",
+      "The City as an Assembly by Terry Williamson"
     ]
-}
+  }
+  

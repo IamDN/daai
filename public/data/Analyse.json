@@ -1,14 +1,16 @@
 {
     "title": "Analyse",
-    "snippet": "Dissecting urban spaces to reveal the interconnected layers of functionality, design, and culture.",
-    "description": "In urban analysis, breaking down the physical, social, and economic dimensions of spaces is essential. Analysis helps uncover connections between infrastructure, human behavior, and the built environment, paving the way for innovative urban interventions.",
+    "snippet": "Dissecting urban elements to understand their role in the bigger picture",
+    "description": "Analysis in urban planning involves breaking down complex urban systems to understand each component’s function. It allows planners to evaluate how these elements interact and impact the community, creating insights for strategic improvement.",
     "imageLinks": [
-        "https://picsum.photos/300/200?random=103",
-        "https://picsum.photos/300/200?random=104"
+      "https://picsum.photos/300/200?random=1",
+      "https://picsum.photos/300/200?random=2",
+      "https://picsum.photos/300/200?random=3"
     ],
     "literature": [
-        "Spatial Analysis: A Guide for Ecologists by Marie-Jos\u00e9e Fortin",
-        "Cities of Tomorrow by Peter Hall",
-        "The Image of the City by Kevin Lynch"
+      "Urban Analysis by Stephen Marshall",
+      "The Power Broker by Robert Caro",
+      "Space, Time and Architecture by Sigfried Giedion"
     ]
-}
+  }
+  

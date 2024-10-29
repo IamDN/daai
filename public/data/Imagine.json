@@ -1,14 +1,16 @@
 {
     "title": "Imagine",
-    "snippet": "Exploring the potential futures of urban landscapes through creative foresight and vision.",
-    "description": "Imagination plays a crucial role in envisioning possible urban futures. By projecting beyond current constraints, urban thinkers can conceptualize spaces that meet emerging social needs and environmental challenges.",
+    "snippet": "Visualizing potential futures for urban spaces",
+    "description": "Imagination in urban planning allows for envisioning vibrant futures and novel solutions to current challenges. By imagining alternative realities, planners can develop visionary plans that cater to community well-being and environmental resilience.",
     "imageLinks": [
-        "https://picsum.photos/300/200?random=105",
-        "https://picsum.photos/300/200?random=106"
+      "https://picsum.photos/300/200?random=4",
+      "https://picsum.photos/300/200?random=5",
+      "https://picsum.photos/300/200?random=6"
     ],
     "literature": [
-        "Future Cities by Camilla Ween",
-        "Envisioning Real Utopias by Erik Olin Wright",
-        "Design for the Real World by Victor Papanek"
+      "Urban Utopias by Howard, Wright, Le Corbusier",
+      "Design for Ecological Democracy by Randolph T. Hester",
+      "Future Cities by Stephen Read"
     ]
-}
+  }
+  

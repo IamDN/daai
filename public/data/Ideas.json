@@ -1,16 +1,16 @@
 {
     "title": "Ideas",
-    "snippet": "Exploring the concept of ideas and its impact on urban spaces.",
-    "description": "The notion of 'ideas' in urban planning is pivotal to understanding various dimensions of urban life and development. 'Ideas' addresses critical aspects such as perception, utility, and the social and physical dynamics that shape urban spaces. By examining ideas, urban planners and researchers can create more inclusive, adaptive, and responsive environments. The concept extends to understanding the needs, limits, and potentials within urban contexts to enhance the lived experiences and interactions of individuals.",
+    "snippet": "Fresh concepts for urban development",
+    "description": "Ideas fuel innovation in urban planning. Exploring new concepts helps planners discover unique approaches to addressing the complex needs of modern cities.",
     "imageLinks": [
-        "https://picsum.photos/300/200?random=1&topic=Ideas",
-        "https://picsum.photos/300/200?random=2&topic=Ideas",
-        "https://picsum.photos/300/200?random=3&topic=Ideas"
+      "https://picsum.photos/300/200?random=52",
+      "https://picsum.photos/300/200?random=53",
+      "https://picsum.photos/300/200?random=54"
     ],
     "literature": [
-        "The Death and Life of Great American Cities by Jane Jacobs",
-        "The City in History by Lewis Mumford",
-        "Urban Space and Structures by Leslie Martin",
-        "Good City Form by Kevin Lynch"
+      "The Good City by Paul Goldberger",
+      "Urban Ideas by Peter Hall",
+      "Designing the City by Hildebrand Frey"
     ]
-}
+  }
+  

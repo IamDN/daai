@@ -1,16 +1,16 @@
 {
     "title": "Materials",
-    "snippet": "Exploring the concept of materials and its impact on urban spaces.",
-    "description": "The notion of 'materials' in urban planning is pivotal to understanding various dimensions of urban life and development. 'Materials' addresses critical aspects such as perception, utility, and the social and physical dynamics that shape urban spaces. By examining materials, urban planners and researchers can create more inclusive, adaptive, and responsive environments. The concept extends to understanding the needs, limits, and potentials within urban contexts to enhance the lived experiences and interactions of individuals.",
+    "snippet": "Utilizing resources to build sustainable urban spaces",
+    "description": "Materials in urban planning refer to the physical resources that make up a city’s structures. Choosing sustainable materials ensures that urban development minimizes environmental impact.",
     "imageLinks": [
-        "https://picsum.photos/300/200?random=1&topic=Materials",
-        "https://picsum.photos/300/200?random=2&topic=Materials",
-        "https://picsum.photos/300/200?random=3&topic=Materials"
+      "https://picsum.photos/300/200?random=58",
+      "https://picsum.photos/300/200?random=59",
+      "https://picsum.photos/300/200?random=60"
     ],
     "literature": [
-        "The Death and Life of Great American Cities by Jane Jacobs",
-        "The City in History by Lewis Mumford",
-        "Urban Space and Structures by Leslie Martin",
-        "Good City Form by Kevin Lynch"
+      "Cradle to Cradle by William McDonough and Michael Braungart",
+      "Building Materials and Technology in Modern Architecture by Manfredo Tafuri",
+      "The Material City by Edward Allen"
     ]
-}
+  }
+  

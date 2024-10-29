@@ -1,16 +1,16 @@
 {
     "title": "Needs",
-    "snippet": "Exploring the concept of needs and its impact on urban spaces.",
-    "description": "The notion of 'needs' in urban planning is pivotal to understanding various dimensions of urban life and development. 'Needs' addresses critical aspects such as perception, utility, and the social and physical dynamics that shape urban spaces. By examining needs, urban planners and researchers can create more inclusive, adaptive, and responsive environments. The concept extends to understanding the needs, limits, and potentials within urban contexts to enhance the lived experiences and interactions of individuals.",
+    "snippet": "Prioritizing human and environmental requirements in planning",
+    "description": "In urban planning, addressing needs involves identifying and prioritizing the essential requirements of both residents and the environment. This ensures that urban spaces are sustainable, accessible, and resilient.",
     "imageLinks": [
-        "https://picsum.photos/300/200?random=1&topic=Needs",
-        "https://picsum.photos/300/200?random=2&topic=Needs",
-        "https://picsum.photos/300/200?random=3&topic=Needs"
+      "https://picsum.photos/300/200?random=34",
+      "https://picsum.photos/300/200?random=35",
+      "https://picsum.photos/300/200?random=36"
     ],
     "literature": [
-        "The Death and Life of Great American Cities by Jane Jacobs",
-        "The City in History by Lewis Mumford",
-        "Urban Space and Structures by Leslie Martin",
-        "Good City Form by Kevin Lynch"
+      "Cities for People by Jan Gehl",
+      "Urban Design: The Architecture of Community by Donald Watson",
+      "Designing Sustainable Cities by Rachel Cooper and Graeme Evans"
     ]
-}
+  }
+  

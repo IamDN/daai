@@ -1,16 +1,16 @@
 {
     "title": "Data",
-    "snippet": "Exploring the concept of data and its impact on urban spaces.",
-    "description": "The notion of 'data' in urban planning is pivotal to understanding various dimensions of urban life and development. 'Data' addresses critical aspects such as perception, utility, and the social and physical dynamics that shape urban spaces. By examining data, urban planners and researchers can create more inclusive, adaptive, and responsive environments. The concept extends to understanding the needs, limits, and potentials within urban contexts to enhance the lived experiences and interactions of individuals.",
+    "snippet": "Harnessing information to enhance urban spaces",
+    "description": "Data in urban planning provides the backbone for informed decisions. Analyzing data allows planners to address real issues and forecast potential urban outcomes.",
     "imageLinks": [
-        "https://picsum.photos/300/200?random=1&topic=Data",
-        "https://picsum.photos/300/200?random=2&topic=Data",
-        "https://picsum.photos/300/200?random=3&topic=Data"
+      "https://picsum.photos/300/200?random=40",
+      "https://picsum.photos/300/200?random=41",
+      "https://picsum.photos/300/200?random=42"
     ],
     "literature": [
-        "The Death and Life of Great American Cities by Jane Jacobs",
-        "The City in History by Lewis Mumford",
-        "Urban Space and Structures by Leslie Martin",
-        "Good City Form by Kevin Lynch"
+      "Smart Cities by Anthony M. Townsend",
+      "The Data-Driven City by Rebecca Cunningham",
+      "Big Data, Big Design by Martyn Dade-Robertson"
     ]
-}
+  }
+  
