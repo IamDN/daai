@@ -42,7 +42,7 @@ body {
  
   width: 100vw;
   height: 3vh;
-  padding: 2vh;
+  padding: 2.1vh;
 }
 .description-title{
   padding: 15px;
@@ -172,8 +172,8 @@ body {
   height: 8vh;
   width: 100%;
   border: 0px;
-  padding-left: 25px;
-  padding-top: 15px;
+  padding-left: 3.5vh;
+  padding-top: 2.5vh;
    background-color: black;
    text-align: left;
     color: azure;
@@ -207,7 +207,7 @@ body {
 
 .layer-button{
     display: grid;
-    height: 9.5vh;
+    height: 9vh;
     width: 100%;
     background-color: transparent;
     border-left: 2px solid rgb(0, 0, 0); 
@@ -215,7 +215,7 @@ body {
     border-top: 1px solid rgb(0, 0, 0); 
     border-bottom: 1px solid rgb(0, 0, 0); 
     color: rgb(0, 0, 0);
-    padding-top: 2.6vh;
+    padding-top: 2.5vh;
     padding-left: 0px;
     padding-right: 0px;
     margin-top: 1px;
