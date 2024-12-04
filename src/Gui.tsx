@@ -344,8 +344,8 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
   }
   const addAICountrol = () => {
 
-    const oriIdx = firstRow.indexOf(verbs[verbs.length - 1]) ;
-    const colorIndex = oriIdx !== -1 ? Math.floor(oriIdx / 3) : 0;
+   // const oriIdx = firstRow.indexOf(verbs[verbs.length - 1]) ;
+   // const colorIndex = oriIdx !== -1 ? Math.floor(oriIdx / 3) : 0;
     // const color = colors[colorIndex];
     return (
       <div>
