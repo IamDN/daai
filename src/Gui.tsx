@@ -183,9 +183,15 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
     const backButton = document.querySelector(".back-button") as HTMLButtonElement;
     backButton.classList.remove("hide");
     const type = here === 0 ? " here and now advice" : "  literature review";
-    descriptionPanel.innerHTML = '<br> <br> Loading AI answer for '
+   
+    descriptionPanel.innerHTML ="";
+    const descriptionElement = document.createElement("p");
+    descriptionElement.className = "description-text";
+    descriptionElement.textContent = 'Loading AI answer for '
     + lastVerb.name + ' ' + lastNoun.name + type+ ', it might take a couple of' +
     ' seconds, please stand by...';
+    descriptionPanel.appendChild(descriptionElement);
+    
     descriptionPanel.style.backgroundColor = boxColors[0];
     source.getLiteratureFromWords(lastVerb.name, lastNoun.name).then((lit : string[]) => {
   
