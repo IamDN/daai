@@ -231,7 +231,7 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
         >
         {word.name.toLowerCase() } 
         <div className="thumb-container" >
-           <img className="thumb" 
+           <img 
               src={images[isVerb ? oriIdx : (oriIdx + 15)]}
           className={isLast ? 'thumb' : 'thumb hide'}
           style={{ 
@@ -346,7 +346,7 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
 
     const oriIdx = firstRow.indexOf(verbs[verbs.length - 1]) ;
     const colorIndex = oriIdx !== -1 ? Math.floor(oriIdx / 3) : 0;
-    const color = colors[colorIndex];
+    // const color = colors[colorIndex];
     return (
       <div>
         <button className={"ask-button"} 
