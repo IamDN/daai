@@ -322,7 +322,7 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
     if (touchStart !== null) {
       const distance = touchCurrent - touchStart ;
       if (Math.abs(distance) > 10) { // Threshold to determine scrolling
-        onScroll( distance*3, e.touches[0].clientX < window.innerWidth / 2);
+        onScroll( -distance*3, e.touches[0].clientX < window.innerWidth / 2);
       }
     }
   };
