@@ -230,13 +230,15 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
           }}
         >
         {word.name.toLowerCase() } 
-        <img 
-          src={images[isVerb ? oriIdx : (oriIdx + 15)]}
+        <div className="thumb-container" >
+           <img className="thumb" 
+              src={images[isVerb ? oriIdx : (oriIdx + 15)]}
           className={isLast ? 'thumb' : 'thumb hide'}
           style={{ 
             filter: `grayscale(100%)  sepia(100%) hue-rotate(${hues[colorIndex]}deg)` 
-          }}
-        />        
+            }}
+        />    
+       </div>
         <div className={isLast ? 'snippet' : 'snippet hide'}>
           {word.snippets}
         </div>
