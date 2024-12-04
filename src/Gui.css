@@ -159,7 +159,7 @@ body {
   transition: background-color 10s;
 }
 .snippet {
-  margin-top: 0vh;
+  margin-top: -1vh;
   text-align: left;
   padding-left: 2vh;
   padding-right: 2vh;
