@@ -97,7 +97,7 @@ public async getDescription(world: string): Promise<[string[], string[]]> {
   return [firstRow, secondRow];
 }
 
-public async getWordData(world: string): Promise<{ description: string, literature: string[], imageLinks: string[] }> {
+public async getWordData(world: string): Promise<{ description: string, snippet: string, literature: string[], imageLinks: string[] }> {
   const path = `${world}.json`; // Change the file extension to .json
   const base = window.location.origin + import.meta.env.BASE_URL;
   const url = new URL("./data/" + path, base).href;
@@ -113,6 +113,7 @@ public async getWordData(world: string): Promise<{ description: string, literatu
   // Return the relevant data
   return {
     description: data.description,
+    snippet: data.snippet,
     literature: data.literature,
     imageLinks: data.imageLinks
   };

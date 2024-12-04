@@ -9,22 +9,29 @@ import { StaticSource,WordCombos } from './StaticSource.ts';
 
 // src/webpack.d.ts
 const source = new StaticSource();
-
+const countOfDisplayedRows = 5;
 interface WordData {
   description: string;
+  snippet: string;
   literature: string[];
   imageLinks: string[];
 }
 
 
 const colors = [
-  '#1B65A6', 
-  '#1D4B73', 
-  '#9CBCD9', 
-  '#417FA6', 
-  '#083040', 
+  '#6B9BF8', 
+  '#F9D649', 
+  '#F3B7FC', 
+  '#EF6847', 
+  '#AEDDFB', 
 ];
-
+const hues = [
+  220, 
+  48, 
+  293, 
+  0, 
+  203, 
+];
 
 var lastContent = "";
 
@@ -68,26 +75,46 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
 
       // Clear the existing content of descriptionPanel
       descriptionPanel.innerHTML = "";
-      
+
+
+
+      const imgElement = document.createElement("img");
+      imgElement.className = "image-main";
+          imgElement.src =  data.imageLinks[0];
+          descriptionPanel.appendChild(imgElement);
+
       // Add the title as a heading
-      const titleElement = document.createElement("h2");
-      titleElement.textContent = word.name;
+      const titleElement = document.createElement("div");
+      titleElement.className = "description-title";
+      titleElement.textContent = word.name.toLowerCase();;
       descriptionPanel.appendChild(titleElement);
+
+      const snippetElement = document.createElement("div");
+      snippetElement.className = "description-snippet";
+      snippetElement.textContent = data.snippet;;
+      descriptionPanel.appendChild(snippetElement);
       
       // Add the description as a paragraph
       const descriptionElement = document.createElement("p");
+      descriptionElement.className = "description-text";
       descriptionElement.textContent = data.description;
       descriptionPanel.appendChild(descriptionElement);
       
-      // Add all images
-      data.imageLinks.forEach(imageSrc => {
-          const imgElement = document.createElement("img");
-          imgElement.src = imageSrc;
-          descriptionPanel.appendChild(imgElement);
-      });
+     // Add all images
+      // data.imageLinks.forEach(imageSrc => {
+      //     const imgElement = document.createElement("img");
+      //     imgElement.src = imageSrc;
+      //     descriptionPanel.appendChild(imgElement);
+      // });
       
       // Add all literatures as a list
+      const literatureHeaderElement = document.createElement("div");
+      literatureHeaderElement.className = "description-lit";
+      literatureHeaderElement.textContent = "Recomanded literature";
+      descriptionPanel.appendChild(literatureHeaderElement);
+
       const literatureList = document.createElement("ul");
+      literatureList.className = "description-lit2";
       data.literature.forEach(literature => {
           const literatureItem = document.createElement("li");
           literatureItem.textContent = literature;
@@ -181,11 +208,14 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
      const [firstRow, secondRow] = preloadedData;
 
     const oriIdx = isVerb ? firstRow.indexOf(word) : secondRow.indexOf(word);
-    const side = isVerb ? ' left' : ' right';
+    const positionMap = ['first', 'mid', 'last'];
+    const position = positionMap[oriIdx % 3];
+    const side= isVerb ? 'left' : 'right';
+    const edge = ` ${position}-${side}`;
     const active = isLast ? ' active' : ' nonactive';
-    const hide = list.indexOf(word)  < verbs.length -3? ' hide' : ''; //remove this to see full list (+ some height adjustme in css)
+    const hide = list.indexOf(word)  < verbs.length -countOfDisplayedRows? ' hide' : '';
    
-    const name =  'layer-button' + side + active +  hide;
+    const name =  'layer-button' + edge + active +  hide;
     const colorIndex = oriIdx !== -1 ? Math.floor(oriIdx / 3) : 0;
     return (
       <button
@@ -196,16 +226,17 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
           onClick={() => onWordClicked (word, isVerb)}
           value = {test}
           style={{
-            //backgroundColor: isLast ? colors[colorIndex ] : 'transparent', 
             backgroundColor: colors[colorIndex], 
-            //borderColor: colors[colorIndex]
           }}
         >
         {word.name.toLowerCase() } 
         <img 
           src={images[isVerb ? oriIdx : (oriIdx + 15)]}
           className={isLast ? 'thumb' : 'thumb hide'}
-        />
+          style={{ 
+            filter: `grayscale(100%)  sepia(100%) hue-rotate(${hues[colorIndex]}deg)` 
+          }}
+        />        
         <div className={isLast ? 'snippet' : 'snippet hide'}>
           {word.snippets}
         </div>
@@ -317,9 +348,9 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
     return (
       <div>
         <button className={"ask-button"} 
-          style={{ color: color  }} 
+        //  style={{ color: color  }} 
           onClick={() => onAIClicked(0)}>
-          {"Here Now"}
+          {"HERE & NOW"}
         </button>
 
       </div>
@@ -329,7 +360,7 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
   const drawGUI = () => {
     return (
       <div>
-        <div className="header"> {"Design Actions"} </div>
+        <div className="header"> {"DESIGN ACTIONS"} </div>
         <div className="action-panel">
           <div className="verbs-panel" 
               onWheel={(e) => onScroll(e.deltaY, true)} 
