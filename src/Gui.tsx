@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import lockImage from './gui/lock.png';
 import unlockImage from './gui/unlock.png';
+import arrow from './gui/arrow.png';
 import React from 'react';
 import images from './imageLoader';
 import { getAIAnswer } from './Ai';
@@ -19,11 +20,11 @@ interface WordData {
 
 
 const colors = [
-  '#6B9BF8', 
-  '#F9D649', 
-  '#F3B7FC', 
-  '#EF6847', 
-  '#AEDDFB', 
+  '#6B9CFA', 
+  '#F9D51B', 
+  '#FFB8FD', 
+  '#FF6A49', 
+  '#AEDDFF', 
 ];
 const hues = [
   220, 
@@ -354,11 +355,11 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
    // const colorIndex = oriIdx !== -1 ? Math.floor(oriIdx / 3) : 0;
     // const color = colors[colorIndex];
     return (
-      <div>
+      <div >
         <button className={"ask-button"} 
-        //  style={{ color: color  }} 
           onClick={() => onAIClicked(0)}>
-          {"HERE & NOW"}
+          <span className="ask-spam">{"HERE NOW "}</span>
+          <img src={arrow} className="arrow-icon"  />
         </button>
 
       </div>
@@ -367,7 +368,7 @@ const [lastNoun, setLastNoun] = useState(secondRow[secondRow.length - 1]);
 
   const drawGUI = () => {
     return (
-      <div>
+      <div className ="parent">
         <div className="header"> {"DESIGN ACTIONS"} </div>
         <div className="action-panel">
           <div className="verbs-panel" 

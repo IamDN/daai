@@ -2,19 +2,27 @@ body {
   overflow: hidden;
   background-color: "black";
   color: white;
+  
+}
+.parent {
+   display: flex;
+  justify-content: center; 
+  height: 100vh; 
+  background-color: black; 
 }
 
 .action-panel{
   overflow: hidden;
-  position: absolute;
+  display: flex;
   text-align: center;
-  left: 0px;
-  top: 8vh;
-  bottom: 5vh;
   width: 100%;
-  height: 92vh;
+  max-width: 430px; /* Ensure it doesn't exceed 600px on wider screens */
+  padding: 0vh;
+  padding-top: 7.5vh;
+  height: 93vh;
   border: 0px solid rgb(0, 0, 0);
   background-color: black;
+  margin: 0 auto; /* Centers the element horizontally */
 }
 
 .description-panel{
@@ -39,7 +47,6 @@ body {
   background-color: black;
   color: white;
   top: 0px;
- 
   width: 100vw;
   height: 3vh;
   padding: 2.1vh;
@@ -123,7 +130,7 @@ body {
 
 .nouns-panel {
   overflow: hidden;
-  position: absolute;
+ /* position: absolute; */
   height: 100%;
   top: 0%;
   left: 49.5%;
@@ -134,10 +141,13 @@ body {
 
 .footer {
   position: absolute;
+  display: flex;
+  justify-content: center; /* Centers the child horizontally */
   height: 5vn;
   bottom: 0%;
   width: 100%;
-  background-color: black;
+  max-width: 430px; 
+  background-color: transparent;
   text-align: left;
 }
 
@@ -146,8 +156,8 @@ body {
   width: 4vh;
   height: 4vh;
   /* border-radius:100px; */
-  right:0.3em;
-  top: 0.3em;
+  right:1.5vh;
+  top: 1.5vh;
   border: 0px solid;
   color: white;
   background-color: transparent;
@@ -159,10 +169,11 @@ body {
   transition: background-color 10s;
 }
 .snippet {
-  margin-top: -1vh;
+
   text-align: left;
   padding-left: 2vh;
   padding-right: 2vh;
+  padding-top: 2vh;
   font-size: 2.3vh;
 }
 
@@ -215,13 +226,13 @@ body {
     border-top: 1px solid rgb(0, 0, 0); 
     border-bottom: 1px solid rgb(0, 0, 0); 
     color: rgb(0, 0, 0);
-    padding-top: 2.5vh;
+    padding-top: 2.2vh;
     padding-left: 0px;
     padding-right: 0px;
     margin-top: 1px;
     margin-left: 1px;
     cursor: pointer;
-    font-size:3vh;
+    font-size:3.4vh;
     justify-content: center;
     text-align: center; /* Aligns text to the left */
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -258,21 +269,14 @@ body {
     height: 67vh;
     display: grid;
     align-content: start; /* Aligns content to the top */
-
     background-color:  rgb(61, 242, 203);
-    font-size: 3.0vh;
+    font-size: 3.4vh;
     -webkit-transform:scale(1,1); /* Safari and Chrome */
     -moz-transform:scale(1,1); /* Firefox */
     -ms-transform:scale(1,1); /* IE 9 */
     -o-transform:scale(1,1); /* Opera */
     transform:scale(1,1); /* W3C */
     transition: color 10s;
-
-    /* padding-bottom: 2vh;
-    padding-top: 1.5vh; */
-
-
-
   }
 
   .nonactive {
@@ -298,6 +302,7 @@ body {
 
     object-fit: fill;
     width: 50vw;
+    max-width: 220px;
 
   }
 
@@ -310,22 +315,20 @@ body {
   }
 
   .ask-button {
-    position: absolute; 
-    height: 6vh;
-    background-color: black ;
-    /* border-radius:100px;  */
-    right: -7px;
-    left:-7px;
-    bottom: -7px;
+    height: 6.5vh;
+    background-color: rgb(0, 0, 0) ;
+    width: 380px;
+    max-width: 400px;
+
     border: 0px solid;
     color: rgb(255, 255, 255);
-    padding: 0.1vh; 
-    padding-left: 15px;
-    margin: 7px; 
+    padding: 0.2vh; 
+    margin: 10px; 
     cursor: pointer;
     align-items: center;
     font-size: 3.2vh;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    border-radius: 50px;
     /* transition: background-color 10s; */
   }
   .review-button {
@@ -370,6 +373,18 @@ body {
     font-size: 2.0vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
+
+  .arrow-icon {
+    width: 4vh;
+    height: 4vh;
+    position: relative; /* Use 'absolute' or 'fixed' if needed */
+    top: 0.4vh; /* Adjust value as needed */
+  }
+
+  .ask-spam {
+    position: relative; /* Use 'absolute' or 'fixed' if needed */
+    top: -0.4vh; /* Adjust value as needed */
+  }
   @media (max-width: 600px) {
   .image {
     width: 100%;    
@@ -385,6 +400,7 @@ body {
     object-fit: cover;
     object-position: center; /* centers the image */
   }
+
 }
 @media (min-width: 601px) and (max-width: 1024px) {
   .image {
